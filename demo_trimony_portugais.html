@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a1628">
+<title>TRIMONY — Português (Portugais)</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0a1628;--navy-2:#122038;--navy-3:#1a2d4a;
+  --sapin:#1B4332;--sapin-mid:#2D6A4F;--sapin-accent:#52B788;--sapin-pale:#D8F3DC;--sapin-ultra:#F0FAF3;
+  --off:#f7f9f7;--gray-1:#eef2ee;--gray-2:#d4ddd4;--gray-4:#7a9e7a;
+  --red:#c0392b;--red-light:#fff0ee;--orange:#d97706;--orange-light:#fef9ef;--blue:#1e40af;--blue-light:#eff6ff;
+  --font:'Sora',sans-serif;--mono:'JetBrains Mono',monospace;--r:14px;--r-lg:20px;
+  --shadow:0 2px 12px rgba(27,67,50,0.08);
+}
+html,body{font-family:var(--font);background:var(--off);color:var(--navy);height:100%;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.demo-banner{background:linear-gradient(90deg,var(--sapin),var(--sapin-mid));padding:10px 16px;text-align:center;font-size:12px;font-family:var(--mono);color:white;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:center;gap:8px}
+.demo-badge{background:rgba(255,255,255,0.2);padding:3px 10px;border-radius:20px;font-weight:500;font-size:11px}
+.app-wrapper{width:100%;min-height:100vh;background:var(--off)}
+.app{width:100%;max-width:680px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:var(--off)}
+@media(min-width:700px){.app-wrapper{background:#dce8dc}.app{box-shadow:0 0 80px rgba(27,67,50,0.15)}}
+.header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 60%,var(--sapin) 100%);padding:24px 22px 20px;border-bottom:2px solid var(--sapin-mid);position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--sapin),var(--sapin-accent),var(--sapin))}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between}
+.header-brand{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.header-trimony{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--sapin-accent);letter-spacing:0.22em}
+.header-dot{width:6px;height:6px;border-radius:50%;background:var(--sapin-accent);animation:pulse 2.5s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.8)}}
+.header-greeting{font-size:23px;font-weight:400;color:white;letter-spacing:-0.02em;line-height:1.3}
+.header-greeting strong{font-weight:600}
+.header-tagline{font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;font-family:var(--mono)}
+.header-tagline span{color:var(--sapin-accent);font-weight:500}
+.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.header-btn{width:40px;height:40px;border:1px solid rgba(82,183,136,0.2);border-radius:11px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.header-btn svg{width:18px;height:18px;stroke:rgba(255,255,255,0.55);fill:none;stroke-width:1.5}
+.session-badge{background:var(--navy-2);padding:5px 22px;font-size:10px;color:rgba(255,255,255,0.3);font-family:var(--mono);text-align:right;border-bottom:1px solid rgba(82,183,136,0.08)}
+.status-bar{background:var(--navy-3);padding:10px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(82,183,136,0.1)}
+.status-left{display:flex;align-items:center;gap:8px}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--sapin-accent);flex-shrink:0;animation:pulse 2.5s ease-in-out infinite}
+.status-text{font-size:12px;color:rgba(255,255,255,0.45);font-family:var(--mono)}
+.status-text strong{color:var(--sapin-accent)}
+.meteo-badge{font-size:11px;color:rgba(255,255,255,0.4);font-family:var(--mono)}
+.counters-strip{background:white;padding:14px 22px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-bottom:1px solid var(--gray-1)}
+.counter-item{text-align:center;padding:8px 4px;border-radius:10px;background:var(--off);border:1px solid var(--gray-1)}
+.counter-val{font-size:22px;font-weight:700;color:var(--sapin);font-family:var(--mono);line-height:1}
+.counter-label{font-size:12px;color:var(--gray-4);margin-top:4px;line-height:1.3;font-family:var(--mono)}
+.counter-item.urgent .counter-val{color:var(--orange)}
+.counter-item.money .counter-val{color:var(--sapin-mid);font-size:16px}
+.alertes-section{padding:14px 16px 0}
+.alerte-card{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:12px;margin-bottom:8px;cursor:pointer}
+.alerte-card.urgent{background:var(--red-light);border:1px solid #fca5a5}
+.alerte-card.important{background:var(--orange-light);border:1px solid #fcd34d}
+.alerte-card.info{background:var(--sapin-ultra);border:1px solid rgba(82,183,136,0.3)}
+.alerte-icon{font-size:18px;flex-shrink:0}
+.alerte-body{flex:1;min-width:0}
+.alerte-title{font-size:13px;font-weight:600;color:var(--navy);line-height:1.3}
+.alerte-detail{font-size:11px;color:var(--gray-4);font-family:var(--mono);margin-top:2px}
+.alerte-arrow svg{width:14px;height:14px;fill:none;stroke:var(--gray-4);stroke-width:2}
+.scroll-area{flex:1;overflow-y:auto;padding-bottom:90px;-webkit-overflow-scrolling:touch}
+.section-label{padding:18px 22px 10px;font-size:11px;font-weight:600;color:var(--sapin);text-transform:uppercase;letter-spacing:0.12em;font-family:var(--mono);display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--gray-1)}
+.bloc-grid{padding:0 16px 4px;display:flex;flex-direction:column;gap:8px}
+.action-card{background:white;border:1px solid var(--gray-1);border-radius:var(--r);padding:16px;cursor:pointer;transition:transform 0.1s;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.action-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
+.action-card:active{transform:scale(0.99)}
+.action-card.green::before{background:var(--sapin)}
+.action-card.orange::before{background:var(--orange)}
+.action-card.blue::before{background:var(--blue)}
+.action-card.red::before{background:var(--red)}
+.action-card.gold::before{background:#b45309}
+.action-ico{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+.ico-green{background:var(--sapin-ultra);border:1px solid rgba(82,183,136,0.2)}
+.ico-orange{background:var(--orange-light);border:1px solid rgba(217,119,6,0.2)}
+.ico-blue{background:var(--blue-light);border:1px solid rgba(30,64,175,0.15)}
+.ico-red{background:var(--red-light);border:1px solid rgba(192,57,43,0.15)}
+.ico-gold{background:#fffbeb;border:1px solid rgba(180,83,9,0.15)}
+.action-content{flex:1;min-width:0}
+.action-label{font-size:15px;font-weight:600;color:var(--navy);line-height:1.3}
+.action-hint{font-size:13px;color:var(--gray-4);font-family:var(--mono);margin-top:3px;line-height:1.4}
+.action-arrow{flex-shrink:0;color:var(--gray-2)}
+.action-arrow svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+.card-badge{position:absolute;top:10px;right:10px;font-size:10px;font-family:var(--mono);padding:3px 8px;border-radius:20px;font-weight:500}
+.badge-orange{background:var(--orange-light);color:var(--orange);border:1px solid rgba(217,119,6,0.2)}
+.badge-green{background:var(--sapin-ultra);color:var(--sapin-mid);border:1px solid rgba(82,183,136,0.25)}
+.resume-card{margin:14px 16px 0;background:linear-gradient(135deg,var(--sapin),var(--sapin-mid));border-radius:var(--r-lg);padding:16px 18px;box-shadow:0 4px 20px rgba(27,67,50,0.25)}
+.resume-title{font-size:12px;font-family:var(--mono);color:rgba(255,255,255,0.6);margin-bottom:10px;letter-spacing:0.08em}
+.resume-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.resume-item{background:rgba(255,255,255,0.1);border-radius:10px;padding:10px 12px}
+.resume-val{font-size:20px;font-weight:700;color:white;font-family:var(--mono)}
+.resume-lab{font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;font-family:var(--mono)}
+.argent-card{margin:14px 16px 0;background:white;border:1px solid var(--gray-1);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow)}
+.argent-ico{font-size:28px}
+.argent-body{flex:1}
+.argent-val{font-size:24px;font-weight:700;color:var(--sapin);font-family:var(--mono)}
+.argent-label{font-size:11px;color:var(--gray-4);font-family:var(--mono);margin-top:2px}
+.argent-action{font-size:11px;color:var(--sapin-mid);font-family:var(--mono);background:var(--sapin-ultra);padding:5px 11px;border-radius:7px;border:1px solid rgba(82,183,136,0.25);cursor:pointer;white-space:nowrap;font-weight:500}
+.dossiers-wrap{padding:0 16px 8px}
+.dossiers-card{background:white;border:1px solid var(--gray-1);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.dossiers-header{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gray-1);background:linear-gradient(135deg,var(--sapin-ultra),white)}
+.dossiers-title{font-size:14px;font-weight:600;color:var(--navy)}
+.dossiers-count{font-size:11px;font-family:var(--mono);background:var(--sapin-pale);color:var(--sapin);padding:3px 10px;border-radius:20px;border:1px solid rgba(27,67,50,0.15);font-weight:600}
+.dossier-row{padding:13px 18px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--gray-1);cursor:pointer}
+.dossier-row:last-child{border-bottom:none}
+.d-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.dot-green{background:var(--sapin-accent)}.dot-orange{background:var(--orange)}.dot-red{background:var(--red)}.dot-blue{background:var(--blue)}
+.dossier-info{flex:1;min-width:0}
+.dossier-name{font-size:14px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dossier-detail{font-size:11px;color:var(--gray-4);font-family:var(--mono);margin-top:2px}
+.stop-btn{font-size:10px;font-family:var(--mono);color:var(--red);background:var(--red-light);border:1px solid rgba(192,57,43,0.2);padding:5px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.ok-badge{font-size:10px;font-family:var(--mono);color:var(--sapin);background:var(--sapin-pale);padding:5px 11px;border-radius:7px;border:1px solid rgba(27,67,50,0.15);flex-shrink:0}
+.journal-wrap{padding:0 16px 16px}
+.journal-card{background:white;border:1px solid var(--gray-1);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.journal-header{padding:14px 18px;background:linear-gradient(135deg,var(--navy),var(--navy-2));display:flex;align-items:center;gap:8px}
+.journal-title{font-size:13px;font-weight:600;color:white;font-family:var(--mono);letter-spacing:0.05em}
+.journal-dot{width:6px;height:6px;border-radius:50%;background:var(--sapin-accent);animation:pulse 2s infinite}
+.journal-row{padding:11px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--gray-1)}
+.journal-row:last-child{border-bottom:none}
+.journal-ico{font-size:16px;flex-shrink:0}
+.journal-text{flex:1;font-size:12px;color:var(--navy);line-height:1.4}
+.journal-time{font-size:12px;color:var(--gray-4);font-family:var(--mono);flex-shrink:0}
+.nav-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:680px;background:var(--navy);display:flex;border-top:2px solid var(--sapin);padding-bottom:env(safe-area-inset-bottom,8px);z-index:50}
+.nav-item{flex:1;padding:12px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;opacity:0.3}
+.nav-item.active{opacity:1}
+.nav-item.active svg{stroke:var(--sapin-accent)}
+.nav-item.active span{color:var(--sapin-accent)}
+.nav-item svg{width:21px;height:21px;fill:none;stroke:white;stroke-width:1.5}
+.nav-item span{font-size:9px;color:white;font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}
+.modal-overlay.open{display:flex;animation:fadeIn 0.2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:white;border-radius:24px 24px 0 0;padding:20px 20px 32px;width:100%;max-width:680px;animation:slideUp 0.28s cubic-bezier(0.32,0.72,0,1);max-height:85vh;overflow-y:auto}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-handle{width:36px;height:3px;background:var(--gray-2);border-radius:2px;margin:0 auto 18px}
+.modal-title{font-size:16px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.modal-subtitle{font-size:12px;color:var(--gray-4);font-family:var(--mono);margin-bottom:16px;line-height:1.4}
+.modal-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:8px}
+.modal-opt{display:flex;align-items:center;gap:13px;padding:14px 15px;background:var(--off);border:1px solid var(--gray-1);border-radius:13px;cursor:pointer;text-align:left;width:100%}
+.modal-opt:active{background:var(--sapin-ultra)}
+.modal-opt-ico{width:38px;height:38px;border-radius:10px;background:white;border:1px solid var(--gray-1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.modal-opt-body{flex:1}
+.modal-opt-label{font-size:14px;font-weight:500;color:var(--navy)}
+.modal-opt-hint{font-size:11px;color:var(--gray-4);font-family:var(--mono);margin-top:2px}
+.modal-cancel{margin-top:10px;width:100%;padding:14px;background:none;border:1px solid var(--gray-2);border-radius:13px;font-size:14px;color:var(--gray-4);font-family:var(--font);cursor:pointer}
+.chantier-checklist{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.check-item{display:flex;align-items:center;gap:12px;padding:13px 15px;background:var(--off);border:1px solid var(--gray-1);border-radius:12px;cursor:pointer}
+.check-item.checked{background:var(--sapin-ultra);border-color:rgba(82,183,136,0.3)}
+.check-box{width:22px;height:22px;border-radius:6px;border:2px solid var(--gray-2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.check-item.checked .check-box{background:var(--sapin);border-color:var(--sapin)}
+.check-box svg{width:13px;height:13px;stroke:white;fill:none;stroke-width:2.5;display:none}
+.check-item.checked .check-box svg{display:block}
+.check-label{font-size:13px;font-weight:500;color:var(--navy)}
+.check-hint{font-size:10px;color:var(--gray-4);font-family:var(--mono);margin-top:2px}
+.btn-confirm{width:100%;background:var(--sapin);border:none;border-radius:var(--r);padding:16px;font-size:16px;font-weight:600;color:white;cursor:pointer;font-family:var(--font)}
+.toast{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--sapin);color:white;font-size:13px;font-family:var(--mono);padding:10px 18px;border-radius:30px;opacity:0;transition:all 0.3s;z-index:300;white-space:nowrap;pointer-events:none;max-width:90vw;overflow:hidden}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="demo-banner">
+  <span>👷 Demonstração TRIMONY · MODO CONSTRUÇÃO · Dados fictícios</span>
+  <div class="demo-badge">Português (Portugais)</div>
+</div>
+<div class="app-wrapper"><div class="app">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="header-brand"><span class="header-trimony">TRIMONY</span><div class="header-dot"></div></div>
+        <div class="header-greeting">Bonjour, <strong>Jean Dupont</strong> 👷</div>
+        <div class="header-tagline">TRIMONY tratou de <span>5</span> dossiers ativos</div>
+      </div>
+      <div class="header-right">
+        <div class="header-btn" onclick="showToast('TRIMONY')"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <div class="header-btn" onclick="showToast('DEMO')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+      </div>
+    </div>
+  </div>
+  <div class="session-badge">Sessão ativa · expira em 7 dias</div>
+  <div class="status-bar">
+    <div class="status-left"><div class="status-dot"></div><div class="status-text"><strong>Secretariado ativo — tratamento em 2-3h</strong></div></div>
+    <div class="meteo-badge">🌤️ Liège</div>
+  </div>
+  <div class="counters-strip">
+    <div class="counter-item money"><div class="counter-val">3.850€</div><div class="counter-label">À espera
+de pagamento</div></div>
+    <div class="counter-item urgent"><div class="counter-val">2</div><div class="counter-label">Requerem
+atenção</div></div>
+    <div class="counter-item"><div class="counter-val">12</div><div class="counter-label">Tratados
+este mês</div></div>
+  </div>
+  <div class="scroll-area">
+    <div class="alertes-section">
+      <div class="alerte-card urgent" onclick="showToast('Lecomte — 1.250€')">
+        <div class="alerte-icon">🔴</div>
+        <div class="alerte-body"><div class="alerte-title">Lecomte SA — 1.250€</div><div class="alerte-detail">Éch. 31/05/2026</div></div>
+        <div class="alerte-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="alerte-card important" onclick="showToast('Martin — 2.400€')">
+        <div class="alerte-icon">🟠</div>
+        <div class="alerte-body"><div class="alerte-title">Martin — 2.400€</div><div class="alerte-detail">9 jours</div></div>
+        <div class="alerte-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+    </div>
+    <div class="resume-card">
+      <div class="resume-title">TRIMONY TRATOU DE…</div>
+      <div class="resume-grid">
+        <div class="resume-item"><div class="resume-val">3</div><div class="resume-lab">Relances</div></div>
+        <div class="resume-item"><div class="resume-val">850€</div><div class="resume-lab">Récupérés</div></div>
+        <div class="resume-item"><div class="resume-val">2</div><div class="resume-lab">Réponses</div></div>
+        <div class="resume-item"><div class="resume-val">1</div><div class="resume-lab">Avis Google</div></div>
+      </div>
+    </div>
+    <div class="argent-card" style="margin-top:14px">
+      <div class="argent-ico">💶</div>
+      <div class="argent-body"><div class="argent-val">3.850€</div><div class="argent-label">de orçamentos e faturas seguidos pelo TRIMONY</div></div>
+      <div class="argent-action" onclick="showToast('TRIMONY')">Ver →</div>
+    </div>
+    <div class="section-label">💶 Fluxo de Caixa & Orçamentos</div>
+    <div class="bloc-grid">
+      <div class="action-card green" onclick="openModal('Relembrar cliente após orçamento','TRIMONY prepara a mensagem · você valida')">
+        <div class="action-ico ico-green">📢</div>
+        <div class="action-content"><div class="action-label">Relembrar cliente após orçamento</div><div class="action-hint">TRIMONY prepara a mensagem · você valida</div></div>
+        <div class="card-badge badge-orange">2</div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="action-card green" onclick="openModal('Preparar lembrete de pagamento','Lembrete administrativo · não é cobrança')">
+        <div class="action-ico ico-green">💳</div>
+        <div class="action-content"><div class="action-label">Preparar lembrete de pagamento</div><div class="action-hint">Lembrete administrativo · não é cobrança</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="action-card green" onclick="openModal('Pedir avaliação Google','Mensagem profissional · obra concluída')">
+        <div class="action-ico ico-green">⭐</div>
+        <div class="action-content"><div class="action-label">Pedir avaliação Google</div><div class="action-hint">Mensagem profissional · obra concluída</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+    </div>
+    <div class="section-label">🏗️ Obras & Terreno</div>
+    <div class="bloc-grid">
+      <div class="action-card orange" onclick="openModal('Alerta meteorológico / desemprego','Declaração UCM/Liantis + mensagem clientes')">
+        <div class="action-ico ico-orange">⚠️</div>
+        <div class="action-content"><div class="action-label">Alerta meteorológico / desemprego</div><div class="action-hint">Declaração UCM/Liantis + mensagem clientes</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="action-card orange" onclick="openModal('Validar suplemento de obra','Acordo WhatsApp · no local')">
+        <div class="action-ico ico-orange">📝</div>
+        <div class="action-content"><div class="action-label">Validar suplemento de obra</div><div class="action-hint">Acordo WhatsApp · no local</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="action-card orange" onclick="openChantier()">
+        <div class="action-ico ico-orange">✅</div>
+        <div class="action-content"><div class="action-label">Obra concluída</div><div class="action-hint">PV receção · fatura · agradecimento · avaliação</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+    </div>
+    <div class="section-label">📞 Secretariado</div>
+    <div class="bloc-grid">
+      <div class="action-card blue" onclick="openModal('Preparar resposta de email','TRIMONY redige · você valida antes do envio')">
+        <div class="action-ico ico-blue">✉️</div>
+        <div class="action-content"><div class="action-label">Preparar resposta de email</div><div class="action-hint">TRIMONY redige · você valida antes do envio</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="action-card blue" onclick="openModal('Preparar mensagem WhatsApp','Texto profissional · copiar-colar')">
+        <div class="action-ico ico-blue">📱</div>
+        <div class="action-content"><div class="action-label">Preparar mensagem WhatsApp</div><div class="action-hint">Texto profissional · copiar-colar</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="action-card blue" onclick="openModal('Preparar guião de chamada','Argumentos + info dossier prontos')">
+        <div class="action-ico ico-blue">📞</div>
+        <div class="action-content"><div class="action-label">Preparar guião de chamada</div><div class="action-hint">Argumentos + info dossier prontos</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+    </div>
+    <div class="section-label">📁 Documentos & Contabilidade</div>
+    <div class="bloc-grid">
+      <div class="action-card green" onclick="openModal('Enviar documento ao contabilista','Via FLOW_DOC · transmissão segura')">
+        <div class="action-ico ico-green">🏦</div>
+        <div class="action-content"><div class="action-label">Enviar documento ao contabilista</div><div class="action-hint">Via FLOW_DOC · transmissão segura</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="action-card green" onclick="openModal('Analisar foto de documento','Fatura · guia entrega · TRIMONY prepara')">
+        <div class="action-ico ico-green">📸</div>
+        <div class="action-content"><div class="action-label">Analisar foto de documento</div><div class="action-hint">Fatura · guia entrega · TRIMONY prepara</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="action-card green" onclick="openModal('Pedir info IVA 6%','Renovação construção · formulário pronto')">
+        <div class="action-ico ico-green">📋</div>
+        <div class="action-content"><div class="action-label">Pedir info IVA 6%</div><div class="action-hint">Renovação construção · formulário pronto</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+    </div>
+    <div class="section-label">⭐ Pedidos Prioritários</div>
+    <div class="bloc-grid">
+      <div class="action-card gold" onclick="openModal('Pedido administrativo','Câmara · contentor · licença · autorização')">
+        <div class="action-ico ico-gold">🏢</div>
+        <div class="action-content"><div class="action-label">Pedido administrativo</div><div class="action-hint">Câmara · contentor · licença · autorização</div></div>
+        <div class="card-badge badge-green">Premium</div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="action-card red" onclick="openModal('Modo urgência no terreno','Litígio · inspeção · cliente agressivo')">
+        <div class="action-ico ico-red">🚨</div>
+        <div class="action-content"><div class="action-label">Modo urgência no terreno</div><div class="action-hint">Litígio · inspeção · cliente agressivo</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+    </div>
+    <div class="section-label">📂 Dossiers ativos</div>
+    <div class="dossiers-wrap">
+      <div class="dossiers-card">
+        <div class="dossiers-header"><span class="dossiers-title">Acompanhamento em curso</span><span class="dossiers-count">4</span></div>
+        <div class="dossier-row" onclick="showToast('Martin — 2.400€')"><div class="d-dot dot-orange"></div><div class="dossier-info"><div class="dossier-name">Martin P.</div><div class="dossier-detail">2.400€ · J+9</div></div><button class="stop-btn" onclick="event.stopPropagation();showToast('OK')">×</button></div>
+        <div class="dossier-row" onclick="showToast('Lecomte — 1.250€')"><div class="d-dot dot-red"></div><div class="dossier-info"><div class="dossier-name">Lecomte SA</div><div class="dossier-detail">1.250€ · 31/05</div></div><button class="stop-btn" onclick="event.stopPropagation();showToast('OK')">×</button></div>
+        <div class="dossier-row" onclick="showToast('Defays — OK')"><div class="d-dot dot-green"></div><div class="dossier-info"><div class="dossier-name">Defays</div><div class="dossier-detail">27/05</div></div><span class="ok-badge">✓ OK</span></div>
+        <div class="dossier-row" onclick="showToast('Renard — 600€')"><div class="d-dot dot-blue"></div><div class="dossier-info"><div class="dossier-name">Renard J.</div><div class="dossier-detail">600€ · 02/06</div></div><button class="stop-btn" onclick="event.stopPropagation();showToast('OK')">×</button></div>
+      </div>
+    </div>
+    <div class="section-label">📋 TRIMONY trabalhou por si</div>
+    <div class="journal-wrap">
+      <div class="journal-card">
+        <div class="journal-header"><div class="journal-dot"></div><div class="journal-title">DIÁRIO DE ATIVIDADE</div></div>
+        <div class="journal-row"><div class="journal-ico">✅</div><div class="journal-text">Martin — 2.400€</div><div class="journal-time">14h32</div></div>
+        <div class="journal-row"><div class="journal-ico">⭐</div><div class="journal-text">Defays — Google</div><div class="journal-time">12h15</div></div>
+        <div class="journal-row"><div class="journal-ico">💶</div><div class="journal-text">Lecomte — rappel</div><div class="journal-time">09h40</div></div>
+        <div class="journal-row"><div class="journal-ico">📄</div><div class="journal-text">Defays — comptable</div><div class="journal-time">Hier</div></div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-bar">
+    <div class="nav-item active"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Início</span></div>
+    <div class="nav-item" onclick="showToast('TRIMONY')"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span>Dossiers</span></div>
+    <div class="nav-item" onclick="showToast('TRIMONY')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Clientes</span></div>
+    <div class="nav-item" onclick="showToast('TRIMONY')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planeamento</span></div>
+  </nav>
+</div></div>
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-subtitle" id="modalSubtitle"></div>
+    <div id="modalContent"></div>
+    <button class="modal-cancel" onclick="closeModal()">Cancelar</button>
+  </div>
+</div>
+<div class="modal-overlay" id="modalChantier" onclick="if(event.target===this)closeChantier()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Obra concluída ✅</div>
+    <div class="modal-subtitle">Selecione as ações a desencadear.</div>
+    <div class="chantier-checklist" id="chantierChecklist"></div>
+    <button class="btn-confirm" onclick="confirmerChantier()">Confirmar — TRIMONY trata do resto</button>
+    <button class="modal-cancel" style="margin-top:8px" onclick="closeChantier()">Cancelar</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const TOAST_PREFIX = "TRIMONY prepara : ";
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+function openModal(title,subtitle){document.getElementById('modalTitle').textContent=title;document.getElementById('modalSubtitle').textContent=subtitle;document.getElementById('modalContent').innerHTML='<div class="modal-opts"><button class="modal-opt" onclick="handleAction(\'' + title.replace(/'/g,"\\'") + '\')"><div class="modal-opt-ico">✅</div><div class="modal-opt-body"><div class="modal-opt-label">'+title+'</div><div class="modal-opt-hint">'+subtitle+'</div></div></button></div>';document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function handleAction(label){closeModal();showToast(TOAST_PREFIX+label);}
+const ITEMS=[
+  {id:'pv',label:'PV',checked:true},{id:'fac',label:'Facture',checked:true},
+  {id:'mer',label:'Remerciement',checked:true},{id:'avis',label:'Avis Google J+7',checked:true},
+  {id:'gar',label:'Garantie 1 an',checked:true},{id:'arc',label:'Archiver',checked:true},
+];
+function openChantier(){document.getElementById('chantierChecklist').innerHTML=ITEMS.map(i=>`<div class="check-item ${i.checked?'checked':''}" id="chk-${i.id}" onclick="toggleCheck('${i.id}')"><div class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div><div class="check-label">${i.label}</div></div></div>`).join('');document.getElementById('modalChantier').classList.add('open');}
+function toggleCheck(id){document.getElementById('chk-'+id).classList.toggle('checked');}
+function closeChantier(){document.getElementById('modalChantier').classList.remove('open');}
+function confirmerChantier(){const n=ITEMS.filter(i=>document.getElementById('chk-'+i.id)?.classList.contains('checked')).length;closeChantier();showToast('✅ '+n+' actions — TRIMONY');}
+</script>
+</body></html>
