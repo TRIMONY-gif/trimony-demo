@@ -6,7 +6,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0a1628">
-<title>TRIMONY — Démo</title>
+<title>TRIMONY — Démo V6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -76,6 +76,7 @@ html,body{font-family:var(--font);background:var(--off);color:var(--navy);height
 .validation-amount{font-size:18px;font-weight:700;color:var(--sapin);font-family:var(--mono);margin-top:4px}
 .validation-actions{display:flex;gap:8px}
 .btn-valider{flex:1;background:var(--sapin);border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:600;color:white;cursor:pointer;font-family:var(--font)}
+.btn-valider:hover{background:var(--sapin-mid)}
 .btn-ignorer{background:var(--gray-1);border:none;border-radius:10px;padding:12px 14px;font-size:13px;color:var(--gray-4);cursor:pointer;font-family:var(--font)}
 
 /* ACTIVITE */
@@ -90,9 +91,27 @@ html,body{font-family:var(--font);background:var(--off);color:var(--navy);height
 .activite-text{flex:1;font-size:12px;color:var(--navy);line-height:1.4}
 .activite-time{font-size:10px;color:var(--sapin-accent);font-family:var(--mono);flex-shrink:0;background:var(--sapin-ultra);padding:2px 7px;border-radius:20px}
 
+/* ACCORDEON CATEGORIES */
+.cat-bloc{padding:0 16px 4px}
+.cat-header{background:white;border:1px solid var(--gray-1);border-radius:var(--r);padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);margin-bottom:6px;transition:all 0.15s}
+.cat-header:hover{border-color:var(--sapin-accent);background:var(--sapin-ultra)}
+.cat-header.open{border-color:var(--sapin-accent);background:var(--sapin-ultra);border-radius:var(--r) var(--r) 0 0;margin-bottom:0}
+.cat-ico-wrap{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.cat-text{flex:1}
+.cat-title{font-size:14px;font-weight:600;color:var(--navy)}
+.cat-sub{font-size:11px;color:var(--gray-4);font-family:var(--mono);margin-top:2px}
+.cat-count{font-size:10px;font-family:var(--mono);padding:2px 8px;border-radius:20px;background:var(--sapin-ultra);color:var(--sapin);font-weight:600}
+.cat-arrow{flex-shrink:0;color:var(--gray-2);transition:transform 0.25s}
+.cat-arrow svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+.cat-header.open .cat-arrow{transform:rotate(90deg)}
+.cat-content{display:none;background:white;border:1px solid var(--sapin-accent);border-top:none;border-radius:0 0 var(--r) var(--r);padding:8px 8px 10px;margin-bottom:6px}
+.cat-content.open{display:block;animation:slideDown 0.2s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
 /* ACTIONS */
-.bloc-grid{padding:0 16px 4px;display:flex;flex-direction:column;gap:8px}
-.action-card{background:white;border:1px solid var(--gray-1);border-radius:var(--r);padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.bloc-grid{display:flex;flex-direction:column;gap:6px}
+.action-card{background:white;border:1px solid var(--gray-1);border-radius:var(--r);padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:all 0.15s}
+.action-card:hover{transform:translateX(2px);box-shadow:0 4px 16px rgba(27,67,50,0.12)}
 .action-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
 .action-card.green::before{background:var(--sapin)}
 .action-card.orange::before{background:var(--orange)}
@@ -131,7 +150,7 @@ html,body{font-family:var(--font);background:var(--off);color:var(--navy);height
 
 /* NAV */
 .nav-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:680px;background:var(--navy);display:flex;border-top:2px solid var(--sapin);padding-bottom:env(safe-area-inset-bottom,8px);z-index:50}
-.nav-item{flex:1;padding:12px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;opacity:0.3}
+.nav-item{flex:1;padding:12px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;opacity:0.3;transition:opacity 0.2s}
 .nav-item.active{opacity:1}
 .nav-item.active svg{stroke:var(--sapin-accent)}
 .nav-item.active span{color:var(--sapin-accent)}
@@ -141,28 +160,97 @@ html,body{font-family:var(--font);background:var(--off);color:var(--navy);height
 /* TOAST */
 .toast{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--sapin);color:white;font-size:13px;font-family:var(--mono);padding:10px 18px;border-radius:30px;opacity:0;transition:all 0.3s;z-index:300;white-space:nowrap;pointer-events:none;box-shadow:0 4px 20px rgba(27,67,50,0.4)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,22,40,0.7);z-index:200;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex;animation:fadeIn 0.2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-sheet{background:var(--off);border-radius:24px 24px 0 0;padding:24px 20px 32px;width:100%;max-width:680px;max-height:85vh;overflow-y:auto}
+.modal-handle{width:36px;height:4px;background:var(--gray-2);border-radius:2px;margin:0 auto 20px}
+.modal-title{font-size:18px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.modal-sub{font-size:12px;color:var(--gray-4);font-family:var(--mono);margin-bottom:20px}
+.modal-field{margin-bottom:16px}
+.field-label{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px;display:block}
+.field-input{width:100%;border:1.5px solid var(--gray-2);border-radius:10px;padding:12px 14px;font-size:14px;font-family:var(--font);color:var(--navy);background:white;transition:border 0.15s}
+.field-input:focus{outline:none;border-color:var(--sapin-accent)}
+.field-select{width:100%;border:1.5px solid var(--gray-2);border-radius:10px;padding:12px 14px;font-size:14px;font-family:var(--font);color:var(--navy);background:white;cursor:pointer}
+.field-textarea{width:100%;border:1.5px solid var(--gray-2);border-radius:10px;padding:12px 14px;font-size:14px;font-family:var(--font);color:var(--navy);background:white;resize:none;min-height:90px}
+.modal-send{width:100%;background:var(--sapin);border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:600;color:white;cursor:pointer;font-family:var(--font);margin-top:8px}
+.modal-send:hover{background:var(--sapin-mid)}
+.modal-cancel{width:100%;background:var(--gray-1);border:none;border-radius:12px;padding:12px;font-size:14px;color:var(--gray-4);cursor:pointer;font-family:var(--font);margin-top:8px}
+
+/* DEVIS PREVIEW */
+.devis-preview{background:white;border:1px solid var(--gray-1);border-radius:var(--r);padding:16px;margin:12px 0;font-size:13px;line-height:1.7;color:var(--navy)}
+.devis-preview .dh{font-weight:700;color:var(--sapin);margin-bottom:8px;font-size:14px}
+.devis-preview .dl{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--gray-1)}
+.devis-preview .dl:last-child{border:none;font-weight:700;font-size:15px;color:var(--sapin)}
+.devis-total{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--sapin);text-align:center;padding:12px;background:var(--sapin-ultra);border-radius:10px;margin-top:8px}
+
+/* CLIENTS PAGE */
+.client-card{background:white;border:1px solid var(--gray-1);border-radius:var(--r-lg);margin:0 16px 10px;overflow:hidden;box-shadow:var(--shadow)}
+.client-header{padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.client-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;flex-shrink:0}
+.client-info{flex:1}
+.client-name{font-size:15px;font-weight:600;color:var(--navy)}
+.client-sector{font-size:11px;color:var(--gray-4);font-family:var(--mono);margin-top:1px}
+.client-badge{font-size:10px;font-family:var(--mono);padding:3px 9px;border-radius:20px;font-weight:600}
+.badge-active{background:var(--sapin-ultra);color:var(--sapin)}
+.badge-pending{background:var(--orange-light);color:var(--orange)}
+.badge-urgent{background:var(--red-light);color:var(--red)}
+.client-body{display:none;border-top:1px solid var(--gray-1);padding:14px 16px}
+.client-body.open{display:block}
+.dossier-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--gray-1)}
+.dossier-item:last-child{border:none}
+.dossier-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dot-green{background:var(--sapin-accent)}
+.dot-orange{background:var(--orange)}
+.dot-red{background:var(--red)}
+.dot-blue{background:var(--blue)}
+.dossier-label{flex:1;font-size:13px;color:var(--navy)}
+.dossier-status{font-size:10px;color:var(--gray-4);font-family:var(--mono)}
+.client-action-btn{width:100%;background:var(--navy);border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:600;color:var(--sapin-accent);cursor:pointer;font-family:var(--font);margin-top:12px}
+
+/* PLANNING PAGE */
+.planning-day{margin:0 16px 12px}
+.planning-day-label{font-size:11px;font-weight:600;color:var(--sapin);font-family:var(--mono);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px}
+.planning-slot{background:white;border-radius:var(--r);padding:12px 14px;margin-bottom:6px;border:1px solid var(--gray-1);display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
+.planning-time{font-size:12px;font-family:var(--mono);color:var(--sapin-accent);font-weight:600;min-width:48px}
+.planning-content{flex:1}
+.planning-title{font-size:13px;font-weight:600;color:var(--navy)}
+.planning-client{font-size:11px;color:var(--gray-4);font-family:var(--mono);margin-top:1px}
+.planning-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* NOTE MODAL */
+.mic-zone{background:linear-gradient(135deg,var(--navy),var(--navy-2));border-radius:var(--r-lg);padding:20px;text-align:center;cursor:pointer;border:1px solid rgba(82,183,136,0.25);margin-bottom:12px}
+.mic-btn{width:64px;height:64px;border-radius:50%;background:rgba(82,183,136,0.15);border:2px solid var(--sapin-accent);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:28px;transition:all 0.2s}
+.mic-btn.recording{background:var(--red);border-color:var(--red);animation:micPulse 1s infinite}
+@keyframes micPulse{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,0.4)}50%{box-shadow:0 0 0 12px rgba(192,57,43,0)}}
+.mic-label{font-size:13px;color:rgba(255,255,255,0.7);font-family:var(--mono)}
+
+/* PAGE SYSTEM */
+.page{display:none}
+.page.active{display:block}
 </style>
 </head>
 <body>
-
 <div class="app-wrapper">
 <div class="app">
 
-<!-- DEMO BADGE -->
 <div class="demo-badge" id="demoBadge">⚡ DÉMO INTERACTIVE — TRIMONY</div>
 
-<!-- LANG SELECTOR -->
 <div class="lang-bar">
-  <button class="lang-btn active" onclick="setLang('fr')">🇫🇷 FR</button>
-  <button class="lang-btn" onclick="setLang('al')">🇦🇱 AL</button>
-  <button class="lang-btn" onclick="setLang('tr')">🇹🇷 TR</button>
-  <button class="lang-btn" onclick="setLang('pt')">🇵🇹 PT</button>
-  <button class="lang-btn" onclick="setLang('ro')">🇷🇴 RO</button>
-  <button class="lang-btn" onclick="setLang('bs')">🇧🇦 BS</button>
-  <button class="lang-btn" onclick="setLang('es')">🇪🇸 ES</button>
+  <button class="lang-btn active" onclick="setLang('fr',event)">🇫🇷 FR</button>
+  <button class="lang-btn" onclick="setLang('al',event)">🇦🇱 AL</button>
+  <button class="lang-btn" onclick="setLang('tr',event)">🇹🇷 TR</button>
+  <button class="lang-btn" onclick="setLang('pt',event)">🇵🇹 PT</button>
+  <button class="lang-btn" onclick="setLang('ro',event)">🇷🇴 RO</button>
+  <button class="lang-btn" onclick="setLang('bs',event)">🇧🇦 BS</button>
+  <button class="lang-btn" onclick="setLang('it',event)">🇮🇹 IT</button>
+  <button class="lang-btn" onclick="setLang('pl',event)">🇵🇱 PL</button>
+  <button class="lang-btn" onclick="setLang('ar',event)">🇲🇦 AR</button>
+  <button class="lang-btn" onclick="setLang('nl',event)">🇳🇱 NL</button>
 </div>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-brand"><span class="header-trimony">TRIMONY</span><div class="header-dot"></div></div>
   <div class="header-greeting" id="greeting">Bonjour, <strong>Ermal</strong> 👷</div>
@@ -172,10 +260,9 @@ html,body{font-family:var(--font);background:var(--off);color:var(--navy);height
     <div class="header-stat">⏳ <span>3</span> <span id="stat3">en attente</span></div>
   </div>
 </div>
-<div class="session-badge" id="sessionBadge">Session active · 7 jours restants</div>
+<div class="session-badge" id="session">Session active · 7 jours restants</div>
 
-<!-- NOTE RAPIDE -->
-<div class="note-rapide-band" onclick="showToast(T.noteToast)">
+<div class="note-rapide-band" onclick="openModal('note')">
   <div class="note-rapide-ico">📝</div>
   <div class="note-rapide-text">
     <div class="note-rapide-title" id="noteTitle">Prendre une note rapide</div>
@@ -186,7 +273,9 @@ html,body{font-family:var(--font);background:var(--off);color:var(--navy);height
 
 <div class="scroll-area">
 
-<!-- CASH FLOW WIDGET -->
+<!-- PAGE ACCUEIL -->
+<div class="page active" id="page-home">
+
 <div class="cashflow-widget">
   <div class="cashflow-title" id="cfTitle">💶 IMPACT CASH-FLOW — CE MOIS</div>
   <div class="cashflow-row"><div class="cashflow-label"><div class="cashflow-dot" style="background:var(--red)"></div><span id="cf1">Facture Dupont — 15 jours de retard</span></div><div class="cashflow-amount cashflow-urgent" id="cf1a">3.500€</div></div>
@@ -194,11 +283,9 @@ html,body{font-family:var(--font);background:var(--off);color:var(--navy);height
   <div class="cashflow-row"><div class="cashflow-label"><div class="cashflow-dot" style="background:var(--sapin)"></div><span id="cf3">Facture Leroy — payée ✅</span></div><div class="cashflow-amount cashflow-ok" id="cf3a">6.700€</div></div>
 </div>
 
-<!-- ATTEND VOTRE ACTION -->
 <div class="section-label" id="sectionAction">🟠 Attend votre action</div>
 <div class="validation-bloc">
-
-  <div class="validation-card">
+  <div class="validation-card" id="vc1">
     <div class="validation-header">
       <div class="validation-ico">💶</div>
       <div class="validation-title" id="v1title">Relance facture — Dupont SPRL</div>
@@ -207,12 +294,12 @@ html,body{font-family:var(--font);background:var(--off);color:var(--navy);height
     <div class="validation-draft" id="v1draft">Bonjour M. Dupont,<br><br>Nous nous permettons de vous rappeler que la facture n°2024-089 d'un montant de <strong>3.500€</strong> est échue depuis le 15 mai. Pourriez-vous procéder au règlement dans les meilleurs délais ?<br><br>Cordialement, Ermal Krasniqi</div>
     <div class="validation-amount">3.500€ 🔴 EN RETARD</div>
     <div class="validation-actions">
-      <button class="btn-valider" onclick="showToast(T.sent)">✅ Envoyer</button>
-      <button class="btn-ignorer" onclick="showToast(T.ignored)">Ignorer</button>
+      <button class="btn-valider" onclick="sendValidation('vc1','sent')">✅ Envoyer</button>
+      <button class="btn-ignorer" onclick="dismissCard('vc1','ignored')">Ignorer</button>
     </div>
   </div>
 
-  <div class="validation-card">
+  <div class="validation-card" id="vc2">
     <div class="validation-header">
       <div class="validation-ico">📄</div>
       <div class="validation-title" id="v2title">Devis toiture — Martin</div>
@@ -221,12 +308,12 @@ html,body{font-family:var(--font);background:var(--off);color:var(--navy);height
     <div class="validation-draft" id="v2draft">Bonjour M. Martin,<br><br>Suite à notre visite du 28 mai, veuillez trouver ci-joint votre devis pour la <strong>réfection complète de la toiture</strong> (180m²) — ardoises naturelles.<br>Montant : <strong>22.400€ HTVA</strong> — TVA 6% applicable (maison 1986).<br><br>Ce devis est valable 30 jours.</div>
     <div class="validation-amount">22.400€ · TVA 6% ✅</div>
     <div class="validation-actions">
-      <button class="btn-valider" onclick="showToast(T.sent)">✅ Envoyer le devis</button>
-      <button class="btn-ignorer" onclick="showToast(T.ignored)">Modifier</button>
+      <button class="btn-valider" onclick="sendValidation('vc2','sent')">✅ Envoyer le devis</button>
+      <button class="btn-ignorer" onclick="openModal('modifier-devis')">Modifier</button>
     </div>
   </div>
 
-  <div class="validation-card" style="border-color:var(--purple)">
+  <div class="validation-card" id="vc3" style="border-color:var(--purple)">
     <div class="validation-header">
       <div class="validation-ico">🇧🇪</div>
       <div class="validation-title" id="v3title">Aide prime rénovation — Client Fontaine</div>
@@ -234,14 +321,12 @@ html,body{font-family:var(--font);background:var(--off);color:var(--navy);height
     </div>
     <div class="validation-draft" id="v3draft">TRIMONY a vérifié : <strong>Mme Fontaine est éligible à 2 aides</strong> :<br>• Prime RENOLUTION Wallonie : jusqu'à <strong>4.000€</strong><br>• TVA réduite 6% confirmée<br><br>💡 Intégrez ces aides dans votre devis — c'est un argument commercial fort.</div>
     <div class="validation-actions">
-      <button class="btn-valider" onclick="showToast(T.noted)">✅ Intégrer dans le devis</button>
-      <button class="btn-ignorer" onclick="showToast(T.ignored)">Plus tard</button>
+      <button class="btn-valider" onclick="integrerPrime()">✅ Intégrer dans le devis</button>
+      <button class="btn-ignorer" onclick="dismissCard('vc3','ignored')">Plus tard</button>
     </div>
   </div>
-
 </div>
 
-<!-- TRIMONY A TRAVAILLÉ -->
 <div class="section-label" id="sectionWork">🟢 TRIMONY a travaillé pour vous</div>
 <div class="activite-wrap">
   <div class="activite-card">
@@ -256,291 +341,583 @@ html,body{font-family:var(--font);background:var(--off);color:var(--navy);height
   </div>
 </div>
 
-<!-- BOUTONS -->
-<div class="section-label" id="s1">💶 Cash-flow & Devis</div>
-<div class="bloc-grid">
-  <div class="action-card green" onclick="showToast(T.demo)"><div class="action-ico ico-green">📄</div><div class="action-content"><div class="action-label" id="b1">Préparer un devis</div><div class="action-hint" id="b1h">TRIMONY génère le draft professionnel</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card green" onclick="showToast(T.demo)"><div class="action-ico ico-green">📢</div><div class="action-content"><div class="action-label" id="b2">Relancer un devis</div><div class="action-hint" id="b2h">Tunnel J+3 / J+7 / J+14 automatique</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card green" onclick="showToast(T.demo)"><div class="action-ico ico-green">💳</div><div class="action-content"><div class="action-label" id="b3">Relancer une facture impayée</div><div class="action-hint" id="b3h">Mini-dashboard factures en retard</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card green" onclick="showToast(T.demo)"><div class="action-ico ico-green">⭐</div><div class="action-content"><div class="action-label" id="b4">Demander un avis Google</div><div class="action-hint" id="b4h">WhatsApp direct avec lien pré-rempli</div></div><span class="risk-badge risk-green">🟢 Auto</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+<!-- ACCORDEONS ACTIONS -->
+<div style="height:12px"></div>
+
+<div class="cat-bloc">
+  <div class="cat-header" id="ch1" onclick="toggleCat(1)">
+    <div class="cat-ico-wrap ico-green">💶</div>
+    <div class="cat-text"><div class="cat-title" id="s1">💶 Cash-flow & Devis</div><div class="cat-sub">Devis · Factures · Relances · Google</div></div>
+    <span class="cat-count">4</span>
+    <div class="cat-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+  </div>
+  <div class="cat-content" id="cc1">
+    <div class="bloc-grid">
+      <div class="action-card green" onclick="openModal('devis')"><div class="action-ico ico-green">📄</div><div class="action-content"><div class="action-label" id="b1">Préparer un devis</div><div class="action-hint" id="b1h">TRIMONY génère le draft professionnel</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card green" onclick="openModal('relance-devis')"><div class="action-ico ico-green">📢</div><div class="action-content"><div class="action-label" id="b2">Relancer un devis</div><div class="action-hint" id="b2h">Tunnel J+3 / J+7 / J+14 automatique</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card green" onclick="openModal('relance-facture')"><div class="action-ico ico-green">💳</div><div class="action-content"><div class="action-label" id="b3">Relancer une facture impayée</div><div class="action-hint" id="b3h">Mini-dashboard factures en retard</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card green" onclick="openModal('google')"><div class="action-ico ico-green">⭐</div><div class="action-content"><div class="action-label" id="b4">Demander un avis Google</div><div class="action-hint" id="b4h">WhatsApp direct avec lien pré-rempli</div></div><span class="risk-badge risk-green">🟢 Auto</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+    </div>
+  </div>
 </div>
 
-<div class="section-label" id="s2">🇧🇪 Administration & Traduction</div>
-<div class="bloc-grid">
-  <div class="action-card purple" onclick="showToast(T.demo)"><div class="action-ico ico-purple">📬</div><div class="action-content"><div class="action-label" id="b5">Courrier belge — professionnel</div><div class="action-hint" id="b5h">Commune, TVA, ONSS, fournisseur</div></div><span class="risk-badge risk-red">🔴 TRIMONY traite</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card purple" onclick="showToast(T.demo)"><div class="action-ico ico-purple">🏠</div><div class="action-content"><div class="action-label" id="b6">Comprendre un courrier privé</div><div class="action-hint" id="b6h">Mutuelle, proprio, école, amende</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card purple" onclick="showToast(T.demo)"><div class="action-ico ico-purple">⚖️</div><div class="action-content"><div class="action-label" id="b7">Contester une amende ou facture</div><div class="action-hint" id="b7h">Lettre officielle générée automatiquement</div></div><span class="risk-badge risk-red">🔴 TRIMONY traite</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card purple" onclick="showToast(T.demo)"><div class="action-ico ico-purple">💶</div><div class="action-content"><div class="action-label" id="b8">Vérifier si j'ai droit à une aide</div><div class="action-hint" id="b8h">Pour vous (4-5j) · Pour votre client (24-48h)</div></div><span class="risk-badge risk-red">🔴 TRIMONY traite</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+<div class="cat-bloc">
+  <div class="cat-header" id="ch2" onclick="toggleCat(2)">
+    <div class="cat-ico-wrap ico-purple">🇧🇪</div>
+    <div class="cat-text"><div class="cat-title" id="s2">🇧🇪 Administration & Traduction</div><div class="cat-sub">Courriers · Aides · Contestations</div></div>
+    <span class="cat-count">4</span>
+    <div class="cat-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+  </div>
+  <div class="cat-content" id="cc2">
+    <div class="bloc-grid">
+      <div class="action-card purple" onclick="openModal('courrier')"><div class="action-ico ico-purple">📬</div><div class="action-content"><div class="action-label" id="b5">Courrier belge — professionnel</div><div class="action-hint" id="b5h">Commune, TVA, ONSS, fournisseur</div></div><span class="risk-badge risk-red">🔴 TRIMONY traite</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card purple" onclick="openModal('comprendre')"><div class="action-ico ico-purple">🏠</div><div class="action-content"><div class="action-label" id="b6">Comprendre un courrier privé</div><div class="action-hint" id="b6h">Mutuelle, proprio, école, amende</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card purple" onclick="openModal('contester')"><div class="action-ico ico-purple">⚖️</div><div class="action-content"><div class="action-label" id="b7">Contester une amende ou facture</div><div class="action-hint" id="b7h">Lettre officielle générée automatiquement</div></div><span class="risk-badge risk-red">🔴 TRIMONY traite</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card purple" onclick="openModal('aide')"><div class="action-ico ico-purple">💶</div><div class="action-content"><div class="action-label" id="b8">Vérifier si j'ai droit à une aide</div><div class="action-hint" id="b8h">Pour vous (4-5j) · Pour votre client (24-48h)</div></div><span class="risk-badge risk-red">🔴 TRIMONY traite</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+    </div>
+  </div>
 </div>
 
-<div class="section-label" id="s3">🏗️ Chantiers & Terrain</div>
-<div class="bloc-grid">
-  <div class="action-card orange" onclick="showToast(T.demo)"><div class="action-ico ico-orange">⛈️</div><div class="action-content"><div class="action-label" id="b9">Chantier arrêté — météo</div><div class="action-hint" id="b9h">Secrétariat social + ouvriers eC3.2</div></div><span class="risk-badge risk-red">🔴 TRIMONY traite</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card orange" onclick="showToast(T.demo)"><div class="action-ico ico-orange">📝</div><div class="action-content"><div class="action-label" id="b10">Travaux supplémentaires</div><div class="action-hint" id="b10h">Avenant — validation client par email</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card orange" onclick="showToast(T.demo)"><div class="action-ico ico-orange">✅</div><div class="action-content"><div class="action-label" id="b11">Chantier terminé</div><div class="action-hint" id="b11h">Facture + PV + avis Google au choix</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+<div class="cat-bloc">
+  <div class="cat-header" id="ch3" onclick="toggleCat(3)">
+    <div class="cat-ico-wrap ico-orange">🏗️</div>
+    <div class="cat-text"><div class="cat-title" id="s3">🏗️ Chantiers & Terrain</div><div class="cat-sub">Météo · Travaux sup. · Fin chantier</div></div>
+    <span class="cat-count">3</span>
+    <div class="cat-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+  </div>
+  <div class="cat-content" id="cc3">
+    <div class="bloc-grid">
+      <div class="action-card orange" onclick="openModal('meteo')"><div class="action-ico ico-orange">⛈️</div><div class="action-content"><div class="action-label" id="b9">Chantier arrêté — météo</div><div class="action-hint" id="b9h">Secrétariat social + ouvriers eC3.2</div></div><span class="risk-badge risk-red">🔴 TRIMONY traite</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card orange" onclick="openModal('travaux-sup')"><div class="action-ico ico-orange">📝</div><div class="action-content"><div class="action-label" id="b10">Travaux supplémentaires</div><div class="action-hint" id="b10h">Avenant — validation client par email</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card orange" onclick="openModal('chantier-fin')"><div class="action-ico ico-orange">✅</div><div class="action-content"><div class="action-label" id="b11">Chantier terminé</div><div class="action-hint" id="b11h">Facture + PV + avis Google au choix</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+    </div>
+  </div>
 </div>
 
-<div class="section-label" id="s4">📞 Secrétariat</div>
-<div class="bloc-grid">
-  <div class="action-card blue" onclick="showToast(T.demo)"><div class="action-ico ico-blue">✉️</div><div class="action-content"><div class="action-label" id="b12">Envoyer un message professionnel</div><div class="action-hint" id="b12h">Email ou WhatsApp — vocal ou texte</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card blue" onclick="showToast(T.demo)"><div class="action-ico ico-blue">📱</div><div class="action-content"><div class="action-label" id="b13">Envoyer un message WhatsApp</div><div class="action-hint" id="b13h">S'ouvre avec texte pré-rempli</div></div><span class="risk-badge risk-green">🟢 Auto</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card blue" onclick="showToast(T.demo)"><div class="action-ico ico-blue">🔔</div><div class="action-content"><div class="action-label" id="b14">Prévenir un retard chantier</div><div class="action-hint" id="b14h">Email ou WhatsApp au choix</div></div><span class="risk-badge risk-green">🟢 Auto</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card blue" onclick="showToast(T.demo)"><div class="action-ico ico-blue">📞</div><div class="action-content"><div class="action-label" id="b15">Besoin d'aide pour un appel</div><div class="action-hint" id="b15h">Traitement sous 4h ouvrables</div></div><span class="risk-badge risk-black">⚫ TRIMONY — urgent</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+<div class="cat-bloc">
+  <div class="cat-header" id="ch4" onclick="toggleCat(4)">
+    <div class="cat-ico-wrap ico-blue">📞</div>
+    <div class="cat-text"><div class="cat-title" id="s4">📞 Secrétariat</div><div class="cat-sub">Messages · WhatsApp · Appels</div></div>
+    <span class="cat-count">4</span>
+    <div class="cat-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+  </div>
+  <div class="cat-content" id="cc4">
+    <div class="bloc-grid">
+      <div class="action-card blue" onclick="openModal('msg-pro')"><div class="action-ico ico-blue">✉️</div><div class="action-content"><div class="action-label" id="b12">Envoyer un message professionnel</div><div class="action-hint" id="b12h">Email ou WhatsApp — vocal ou texte</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card blue" onclick="openModal('whatsapp')"><div class="action-ico ico-blue">📱</div><div class="action-content"><div class="action-label" id="b13">Envoyer un message WhatsApp</div><div class="action-hint" id="b13h">S'ouvre avec texte pré-rempli</div></div><span class="risk-badge risk-green">🟢 Auto</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card blue" onclick="openModal('retard')"><div class="action-ico ico-blue">🔔</div><div class="action-content"><div class="action-label" id="b14">Prévenir un retard chantier</div><div class="action-hint" id="b14h">Email ou WhatsApp au choix</div></div><span class="risk-badge risk-green">🟢 Auto</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card blue" onclick="openModal('appel')"><div class="action-ico ico-blue">📞</div><div class="action-content"><div class="action-label" id="b15">Besoin d'aide pour un appel</div><div class="action-hint" id="b15h">Traitement sous 4h ouvrables</div></div><span class="risk-badge risk-black">⚫ TRIMONY — urgent</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+    </div>
+  </div>
 </div>
 
-<div class="section-label" id="s5">📁 Documents & Comptabilité</div>
-<div class="bloc-grid">
-  <div class="action-card green" onclick="showToast(T.demo)"><div class="action-ico ico-green">🏦</div><div class="action-content"><div class="action-label" id="b16">Envoyer au comptable</div><div class="action-hint" id="b16h">Photo · archivage Drive auto</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card green" onclick="showToast(T.demo)"><div class="action-ico ico-green">📸</div><div class="action-content"><div class="action-label" id="b17">Envoyer une photo</div><div class="action-hint" id="b17h">Classée et archivée automatiquement</div></div><span class="risk-badge risk-green">🟢 Auto</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card green" onclick="showToast(T.demo)"><div class="action-ico ico-green">📋</div><div class="action-content"><div class="action-label" id="b18">TVA 6% — est-ce que j'y ai droit ?</div><div class="action-hint" id="b18h">Mention légale injectée automatiquement</div></div><span class="risk-badge risk-red">🔴 TRIMONY traite</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+<div class="cat-bloc">
+  <div class="cat-header" id="ch5" onclick="toggleCat(5)">
+    <div class="cat-ico-wrap ico-green">📁</div>
+    <div class="cat-text"><div class="cat-title" id="s5">📁 Documents & Comptabilité</div><div class="cat-sub">Comptable · Photos · TVA 6%</div></div>
+    <span class="cat-count">3</span>
+    <div class="cat-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+  </div>
+  <div class="cat-content" id="cc5">
+    <div class="bloc-grid">
+      <div class="action-card green" onclick="openModal('comptable')"><div class="action-ico ico-green">🏦</div><div class="action-content"><div class="action-label" id="b16">Envoyer au comptable</div><div class="action-hint" id="b16h">Photo · archivage Drive auto</div></div><span class="risk-badge risk-yellow">🟡 Vous validez</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card green" onclick="openModal('photo')"><div class="action-ico ico-green">📸</div><div class="action-content"><div class="action-label" id="b17">Envoyer une photo</div><div class="action-hint" id="b17h">Classée et archivée automatiquement</div></div><span class="risk-badge risk-green">🟢 Auto</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card green" onclick="openModal('tva')"><div class="action-ico ico-green">📋</div><div class="action-content"><div class="action-label" id="b18">TVA 6% — est-ce que j'y ai droit ?</div><div class="action-hint" id="b18h">Mention légale injectée automatiquement</div></div><span class="risk-badge risk-red">🔴 TRIMONY traite</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+    </div>
+  </div>
 </div>
 
-<div class="section-label" id="s6">🚨 Urgences & Priorités</div>
-<div class="bloc-grid" style="margin-bottom:8px">
-  <div class="action-card gold" onclick="showToast(T.demo)"><div class="action-ico ico-gold">🏢</div><div class="action-content"><div class="action-label" id="b19">Dossier administratif urgent</div><div class="action-hint" id="b19h">SLA : 4h urgent · 24h normal</div></div><span class="risk-badge risk-black">⚫ TRIMONY — urgent</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-  <div class="action-card red" onclick="showToast(T.demo)"><div class="action-ico ico-red">🚨</div><div class="action-content"><div class="action-label" id="b20">Urgence terrain</div><div class="action-hint" id="b20h">Alerte directe — situations critiques</div></div><span class="risk-badge risk-black">⚫ TRIMONY — urgent</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+<div class="cat-bloc">
+  <div class="cat-header" id="ch6" onclick="toggleCat(6)">
+    <div class="cat-ico-wrap ico-red">🚨</div>
+    <div class="cat-text"><div class="cat-title" id="s6">🚨 Urgences & Priorités</div><div class="cat-sub">Dossier urgent · Terrain critique</div></div>
+    <span class="cat-count">2</span>
+    <div class="cat-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+  </div>
+  <div class="cat-content" id="cc6">
+    <div class="bloc-grid">
+      <div class="action-card gold" onclick="openModal('dossier-urgent')"><div class="action-ico ico-gold">🏢</div><div class="action-content"><div class="action-label" id="b19">Dossier administratif urgent</div><div class="action-hint" id="b19h">SLA : 4h urgent · 24h normal</div></div><span class="risk-badge risk-black">⚫ TRIMONY — urgent</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="action-card red" onclick="openModal('urgence-terrain')"><div class="action-ico ico-red">🚨</div><div class="action-content"><div class="action-label" id="b20">Urgence terrain</div><div class="action-hint" id="b20h">Alerte directe — situations critiques</div></div><span class="risk-badge risk-black">⚫ TRIMONY — urgent</span><div class="action-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+    </div>
+  </div>
+</div>
+<div style="height:16px"></div>
+</div><!-- end page-home -->
+
+<!-- PAGE DOSSIERS -->
+<div class="page" id="page-dossiers">
+  <div class="section-label" style="margin-top:8px">📂 Dossiers actifs</div>
+  <div id="dossiersList"></div>
+</div>
+
+<!-- PAGE CLIENTS -->
+<div class="page" id="page-clients">
+  <div class="section-label" style="margin-top:8px">👷 Mes clients</div>
+  <div id="clientsList"></div>
+</div>
+
+<!-- PAGE PLANNING -->
+<div class="page" id="page-planning">
+  <div class="section-label" style="margin-top:8px">📅 Planning semaine</div>
+  <div id="planningContent"></div>
 </div>
 
 </div><!-- end scroll -->
 
 <nav class="nav-bar">
-  <div class="nav-item active"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span id="nav1">Accueil</span></div>
-  <div class="nav-item" onclick="showToast(T.demo)"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span id="nav2">Dossiers</span></div>
-  <div class="nav-item" onclick="showToast(T.demo)"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span id="nav3">Clients</span></div>
-  <div class="nav-item" onclick="showToast(T.demo)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="nav4">Planning</span></div>
+  <div class="nav-item active" id="nav-home" onclick="showPage('home')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span id="nav1">Accueil</span>
+  </div>
+  <div class="nav-item" id="nav-dossiers" onclick="showPage('dossiers')">
+    <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+    <span id="nav2">Dossiers</span>
+  </div>
+  <div class="nav-item" id="nav-clients" onclick="showPage('clients')">
+    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    <span id="nav3">Clients</span>
+  </div>
+  <div class="nav-item" id="nav-planning" onclick="showPage('planning')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span id="nav4">Planning</span>
+  </div>
 </nav>
-
 </div>
+</div>
+
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalIfBg(event)">
+  <div class="modal-sheet" id="modalSheet"></div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+// ── DATA ──────────────────────────────────────────────────────────────────
+const CLIENTS_DATA = [
+  {id:'c1',initials:'MH',color:'#1B4332',name:'Mohamed Hafidi',sector:'Maçonnerie · Liège',badge:'active',badgeText:'Actif',
+   dossiers:[
+    {dot:'dot-green',label:'Devis chantier rue de Liège 44 — 8.200€',status:'Envoyé · 28/05'},
+    {dot:'dot-orange',label:'Facture rénovation façade — 4.500€',status:'En attente paiement'},
+    {dot:'dot-green',label:'Planning semaine 23 confirmé',status:'✅ OK'},
+    {dot:'dot-blue',label:'Relance client Dupont envoyée automatiquement',status:'Auto · 08h14'}
+  ]},
+  {id:'c2',initials:'JP',color:'#1e40af',name:'Jean-Paul Renard',sector:'Électricité · Namur',badge:'pending',badgeText:'En attente',
+   dossiers:[
+    {dot:'dot-orange',label:'Devis installation tableau électrique — 3.100€',status:'À valider'},
+    {dot:'dot-red',label:'Facture impayée — 1.840€ (relance #2)',status:'🔴 Urgent'},
+    {dot:'dot-blue',label:'RDV comptable planifié — 05/06',status:'Confirmé'}
+  ]},
+  {id:'c3',initials:'AK',color:'#7c3aed',name:'Artan Kelmendi',sector:'Plomberie · Seraing',badge:'active',badgeText:'Actif',
+   dossiers:[
+    {dot:'dot-green',label:'Devis remplacement chaudière — 2.800€',status:'Accepté + signé ✅'},
+    {dot:'dot-green',label:'Facture intervention urgente — 620€',status:'Payée · 25/05 ✅'},
+    {dot:'dot-orange',label:'Matériel — tuyaux PER 20mm stock faible',status:'Commande à faire'},
+    {dot:'dot-blue',label:'Note chantier Verlaine enregistrée',status:'Dans dossier'}
+  ]},
+  {id:'c4',initials:'SB',color:'#c0392b',name:'Stefan Bogdanović',sector:'Toiture · Bruxelles',badge:'urgent',badgeText:'⚡ Urgent',
+   dossiers:[
+    {dot:'dot-red',label:'Fuite urgente · client Molenbeek',status:'🚨 Intervention ce jour'},
+    {dot:'dot-orange',label:'Devis réfection toiture complète — 18.500€',status:'En préparation'},
+    {dot:'dot-blue',label:'Photos chantier à envoyer au comptable',status:'En attente'}
+  ]},
+  {id:'c5',initials:'LF',color:'#b45309',name:'Laurent Fontaine',sector:'Finition · Liège',badge:'active',badgeText:'Actif',
+   dossiers:[
+    {dot:'dot-green',label:'Prime RENOLUTION intégrée au devis',status:'✅ Traité par TRIMONY'},
+    {dot:'dot-green',label:'TVA 6% confirmée — mention légale injectée',status:'✅ Auto'},
+    {dot:'dot-orange',label:'Devis peinture salon + chambre — 2.200€',status:'En cours de validation'}
+  ]}
+];
 
+const PLANNING_DATA = [
+  {day:'Lundi 02/06',slots:[
+    {time:'08:00',title:'Chantier Hafidi — Rue de Liège 44',client:'Mohamed Hafidi',color:'#1B4332'},
+    {time:'14:00',title:'Visite devis toiture',client:'Stefan Bogdanović',color:'#c0392b'},
+  ]},
+  {day:'Mardi 03/06',slots:[
+    {time:'09:00',title:'Réunion chantier Kelmendi',client:'Artan Kelmendi',color:'#7c3aed'},
+    {time:'11:30',title:'Appel client Renard — facture',client:'Jean-Paul Renard',color:'#1e40af'},
+    {time:'15:00',title:'Livraison matériel — Verlaine',client:'Stock / logistique',color:'#7a9e7a'},
+  ]},
+  {day:'Mercredi 04/06',slots:[
+    {time:'08:30',title:'Chantier Fontaine — finition salon',client:'Laurent Fontaine',color:'#b45309'},
+    {time:'13:00',title:'Devis Bogdanović — toiture complète',client:'Stefan Bogdanović',color:'#c0392b'},
+  ]},
+  {day:'Jeudi 05/06',slots:[
+    {time:'09:00',title:'RDV comptable',client:'Interne',color:'#2D6A4F'},
+    {time:'14:30',title:'Chantier Hafidi — façade',client:'Mohamed Hafidi',color:'#1B4332'},
+  ]},
+];
+
+// ── LANGUE ───────────────────────────────────────────────────────────────
 const LANGS={
-  fr:{
-    demo:'🎯 Démo — fonctionnalité active dans la version client',
-    sent:'✅ Message envoyé depuis TRIMONY',
-    ignored:'Ignoré — restera en attente',
-    noted:'✅ Intégré dans votre dossier client',
-    noteToast:'📝 Note vocale ou texte — sauvée dans votre cockpit',
-    badge:'⚡ DÉMO INTERACTIVE — TRIMONY',
-    greeting:'Bonjour, <strong>Ermal</strong> 👷',
-    stat1:'actions traitées',stat2:'récupérés ce mois',stat3:'en attente',
-    session:'Session active · 7 jours restants',
-    noteTitle:'Prendre une note rapide',noteSub:'Vocal ou texte · sauvé dans votre cockpit',
-    cfTitle:'💶 IMPACT CASH-FLOW — CE MOIS',
-    cf1:'Facture Dupont — 15 jours de retard',cf1a:'3.500€',
-    cf2:'Devis Martin — relance J+7',cf2a:'2.200€',
-    cf3:'Facture Leroy — payée ✅',cf3a:'6.700€',
-    sAction:'🟠 Attend votre action',sWork:'🟢 TRIMONY a travaillé pour vous',
-    actTitle:'FIL D\'ACTIVITÉ — AUJOURD\'HUI',
-    v1title:'Relance facture — Dupont SPRL',v1time:'Il y a 2h',
-    v1draft:'Bonjour M. Dupont,<br><br>Nous nous permettons de vous rappeler que la facture n°2024-089 d\'un montant de <strong>3.500€</strong> est échue depuis le 15 mai. Pourriez-vous procéder au règlement dans les meilleurs délais ?<br><br>Cordialement, Ermal Krasniqi',
-    v2title:'Devis toiture — Martin',v2time:'Ce matin',
-    v2draft:'Bonjour M. Martin,<br><br>Suite à notre visite du 28 mai, veuillez trouver ci-joint votre devis pour la <strong>réfection complète de la toiture</strong> (180m²).<br>Montant : <strong>22.400€ HTVA</strong> — TVA 6% applicable.<br><br>Ce devis est valable 30 jours.',
-    v3title:'Aide prime rénovation — Client Fontaine',v3time:'Hier',
-    v3draft:'TRIMONY a vérifié : <strong>Mme Fontaine est éligible à 2 aides</strong> :<br>• Prime RENOLUTION Wallonie : jusqu\'à <strong>4.000€</strong><br>• TVA réduite 6% confirmée<br><br>💡 Intégrez ces aides dans votre devis — argument commercial fort.',
-    a1:'Relance facture Leroy 6.700€ envoyée — <strong>payée 2h après</strong> ✅',
-    a2:'Avis Google demandé à Mme Dubois — <strong>5 étoiles reçues</strong> 🌟',
-    a3:'TVA 6% vérifiée chantier Martin — mention légale injectée sur devis',
-    a4:'Courrier ONSS traduit et réponse envoyée — délai évité',
-    a5:'Chantier météo déclaré — Securex prévenu + ouvriers notifiés',
-    a6:'3 factures envoyées au comptable — classées Drive COMPTA_2026',
-    a7:'Rappel garantie 1 an — chantier Fontaine planifié dans 365 jours',
-    s1:'💶 Cash-flow & Devis',s2:'🇧🇪 Administration & Traduction',s3:'🏗️ Chantiers & Terrain',s4:'📞 Secrétariat',s5:'📁 Documents & Comptabilité',s6:'🚨 Urgences & Priorités',
-    b1:'Préparer un devis',b1h:'TRIMONY génère le draft professionnel',
-    b2:'Relancer un devis',b2h:'Tunnel J+3 / J+7 / J+14 automatique',
-    b3:'Relancer une facture impayée',b3h:'Mini-dashboard factures en retard',
-    b4:'Demander un avis Google',b4h:'WhatsApp direct avec lien pré-rempli',
-    b5:'Courrier belge — professionnel',b5h:'Commune, TVA, ONSS, fournisseur',
-    b6:'Comprendre un courrier privé',b6h:'Mutuelle, proprio, école, amende',
-    b7:'Contester une amende ou facture',b7h:'Lettre officielle générée automatiquement',
-    b8:'Vérifier si j\'ai droit à une aide',b8h:'Pour vous (4-5j) · Pour votre client (24-48h)',
-    b9:'Chantier arrêté — météo',b9h:'Secrétariat social + ouvriers eC3.2',
-    b10:'Travaux supplémentaires',b10h:'Avenant — validation client par email',
-    b11:'Chantier terminé',b11h:'Facture + PV + avis Google au choix',
-    b12:'Envoyer un message professionnel',b12h:'Email ou WhatsApp — vocal ou texte',
-    b13:'Envoyer un message WhatsApp',b13h:'S\'ouvre avec texte pré-rempli',
-    b14:'Prévenir un retard chantier',b14h:'Email ou WhatsApp au choix',
-    b15:'Besoin d\'aide pour un appel',b15h:'Traitement sous 4h ouvrables',
-    b16:'Envoyer au comptable',b16h:'Photo · archivage Drive auto',
-    b17:'Envoyer une photo',b17h:'Classée et archivée automatiquement',
-    b18:'TVA 6% — est-ce que j\'ai droit ?',b18h:'Mention légale injectée automatiquement',
-    b19:'Dossier administratif urgent',b19h:'SLA : 4h urgent · 24h normal',
-    b20:'Urgence terrain',b20h:'Alerte directe — situations critiques',
-    nav1:'Accueil',nav2:'Dossiers',nav3:'Clients',nav4:'Planning',
-    btnSend:'✅ Envoyer',btnIgnore:'Ignorer',btnSend2:'✅ Envoyer le devis',btnMod:'Modifier',btnInteg:'✅ Intégrer dans le devis',btnLater:'Plus tard',
-  },
-  al:{
-    demo:'🎯 Demo — funksioni aktiv në versionin e klientit',
-    sent:'✅ Mesazhi u dërgua nga TRIMONY',ignored:'Injoruar — do të mbetet në pritje',noted:'✅ Integruar në dosjen tuaj',noteToast:'📝 Shënim vocal ose tekst — ruajtur në panel',
-    badge:'⚡ DEMO INTERAKTIVE — TRIMONY',
-    greeting:'Mirëdita, <strong>Ermal</strong> 👷',
-    stat1:'veprime të trajtuara',stat2:'të mbledhura këtë muaj',stat3:'në pritje',
-    session:'Sesion aktiv · 7 ditë mbetur',
-    noteTitle:'Bëni një shënim të shpejtë',noteSub:'Vocal ose tekst · ruajtur në panel tuaj',
-    cfTitle:'💶 IMPAKTI CASH-FLOW — KY MUAJ',
-    cf1:'Fatura Dupont — 15 ditë vonë',cf1a:'3.500€',cf2:'Oferta Martin — kujtues J+7',cf2a:'2.200€',cf3:'Fatura Leroy — paguar ✅',cf3a:'6.700€',
-    sAction:'🟠 Pret veprimin tuaj',sWork:'🟢 TRIMONY ka punuar për ju',actTitle:'AKTIVITETI I SOTËM',
-    v1title:'Kujtues fatura — Dupont SPRL',v1time:'2 orë më parë',
-    v1draft:'I nderuar Z. Dupont,<br><br>Ju kujtojmë se fatura nr.2024-089 prej <strong>3.500€</strong> ka skaduar që nga 15 maji. Ju lutemi kryeni pagesën sa më shpejt.<br><br>Me respekt, Ermal Krasniqi',
-    v2title:'Ofertë çati — Martin',v2time:'Sot në mëngjes',
-    v2draft:'I nderuar Z. Martin,<br><br>Sipas vizitës sonë të 28 majit, gjeni bashkëlidhur ofertën për <strong>rinovimin e plotë të çatisë</strong> (180m²).<br>Shuma : <strong>22.400€ pa TVSH</strong> — TVSH 6% e aplikueshme.<br><br>Kjo ofertë është e vlefshme 30 ditë.',
-    v3title:'Ndihmë renovimi — Klienti Fontaine',v3time:'Dje',
-    v3draft:'TRIMONY verifikoi : <strong>Znj. Fontaine ka të drejtë për 2 ndihma</strong> :<br>• Prima RENOLUTION Wallonie : deri në <strong>4.000€</strong><br>• TVSH e reduktuar 6% e konfirmuar<br><br>💡 Integroni këto ndihma në ofertën tuaj.',
-    a1:'Kujtues fatura Leroy 6.700€ dërguar — <strong>paguar 2 orë pas</strong> ✅',a2:'Koment Google kërkuar — <strong>5 yje marrë</strong> 🌟',a3:'TVSH 6% verifikuar — shënimi ligjor injektuar',a4:'Letra ONSS përkthyer dhe përgjigjur',a5:'Ndalesë pune deklaruar — Securex njoftuar + punëtorët',a6:'3 fatura dërguar te kontabilisti',a7:'Kujtues garanci 1 vit — planifikuar',
-    s1:'💶 Cash-flow & Oferta',s2:'🇧🇪 Administrim & Përkthim',s3:'🏗️ Kantiere & Terren',s4:'📞 Sekretariat',s5:'📁 Dokumente & Kontabilitet',s6:'🚨 Urgjencat & Prioritetet',
-    b1:'Përgatit një ofertë',b1h:'TRIMONY gjeneron draftin profesional',b2:'Kujtues ofertë',b2h:'Tunel J+3 / J+7 / J+14 automatik',b3:'Kujtues fatura e papaguar',b3h:'Dashboard fakturat me vonesë',b4:'Kërko koment Google',b4h:'WhatsApp direkt me tekst të parapërgatitur',b5:'Letër belge — profesionale',b5h:'Komunë, TVA, ONSS, furnizues',b6:'Kuptoni një letër private',b6h:'Sigurim, pronar, shkollë, gjobë',b7:'Kundërshtoni gjobë ose faturë',b7h:'Letër zyrtare e gjeneruar automatikisht',b8:'Kontrolloni nëse keni të drejtë ndihme',b8h:'Për ju (4-5 ditë) · Për klientin (24-48h)',b9:'Kantierie ndalur — mot',b9h:'Sekretariat social + punëtorë eC3.2',b10:'Punë shtesë',b10h:'Shtojcë — validim klient me email',b11:'Kantieri i mbaruar',b11h:'Faturë + PV + koment Google sipas dëshirës',b12:'Dërgo mesazh profesional',b12h:'Email ose WhatsApp — vocal ose tekst',b13:'Dërgo mesazh WhatsApp',b13h:'Hapet me tekst të parapërgatitur',b14:'Paralajmëro vonesë kantieri',b14h:'Email ose WhatsApp sipas zgjedhjes',b15:'Ndihmë për thirrje',b15h:'Trajtim brenda 4 orësh',b16:'Dërgo te kontabilisti',b16h:'Foto · arkivim Drive automatik',b17:'Dërgo foto',b17h:'E klasifikuar dhe arkivuar automatikisht',b18:'TVSH 6% — a kam të drejtë?',b18h:'Shënimi ligjor injektohet automatikisht',b19:'Dosje administrative urgente',b19h:'SLA : 4h urgente · 24h normale',b20:'Urgjencë kantieri',b20h:'Alarm direkt — situata kritike',
-    nav1:'Kryefaqe',nav2:'Dosjet',nav3:'Klientët',nav4:'Planifikimi',
-    btnSend:'✅ Dërgo',btnIgnore:'Shpërfill',btnSend2:'✅ Dërgo ofertën',btnMod:'Modifiko',btnInteg:'✅ Integro në ofertë',btnLater:'Më vonë',
-  },
-  tr:{
-    demo:'🎯 Demo — özellik müşteri sürümünde aktif',sent:'✅ Mesaj TRIMONY\'den gönderildi',ignored:'Yoksayıldı — beklemede kalacak',noted:'✅ Müşteri dosyanıza eklendi',noteToast:'📝 Sesli veya yazılı not — panele kaydedildi',
-    badge:'⚡ İNTERAKTİF DEMO — TRIMONY',
-    greeting:'Merhaba, <strong>Ermal</strong> 👷',
-    stat1:'işlem tamamlandı',stat2:'bu ay tahsil edildi',stat3:'beklemede',
-    session:'Oturum aktif · 7 gün kaldı',
-    noteTitle:'Hızlı not al',noteSub:'Sesli veya yazılı · panelinize kaydedildi',
-    cfTitle:'💶 NAKİT AKIŞI ETKİSİ — BU AY',
-    cf1:'Dupont faturası — 15 gün gecikme',cf1a:'3.500€',cf2:'Martin teklifi — J+7 hatırlatma',cf2a:'2.200€',cf3:'Leroy faturası — ödendi ✅',cf3a:'6.700€',
-    sAction:'🟠 Onayınızı bekliyor',sWork:'🟢 TRIMONY sizin için çalıştı',actTitle:'BUGÜNÜN FAALİYETLERİ',
-    v1title:'Fatura hatırlatma — Dupont SPRL',v1time:'2 saat önce',
-    v1draft:'Sayın Bay Dupont,<br><br>2024-089 no\'lu <strong>3.500€</strong> tutarındaki faturanızın 15 Mayıs\'tan beri ödenmediğini hatırlatmak isteriz. Lütfen en kısa sürede ödemeyi gerçekleştiriniz.<br><br>Saygılarımızla, Ermal Krasniqi',
-    v2title:'Çatı teklifi — Martin',v2time:'Bu sabah',
-    v2draft:'Sayın Bay Martin,<br><br>28 Mayıs ziyaretimiz doğrultusunda <strong>çatı tamiri teklifinizi</strong> (180m²) ekte bulabilirsiniz.<br>Tutar : <strong>22.400€ + KDV</strong> — %6 KDV uygulanabilir.<br><br>Teklif 30 gün geçerlidir.',
-    v3title:'Tadilat yardımı — Fontaine Müşterisi',v3time:'Dün',
-    v3draft:'TRIMONY inceledi : <strong>Bayan Fontaine 2 yardıma hak kazanıyor</strong> :<br>• RENOLUTION Wallonie primi : <strong>4.000€\'ya kadar</strong><br>• %6 indirimli KDV onaylandı<br><br>💡 Bu yardımları teklifinize ekleyin — güçlü bir satış argümanı.',
-    a1:'Leroy faturası 6.700€ gönderildi — <strong>2 saat sonra ödendi</strong> ✅',a2:'Google yorumu istendi — <strong>5 yıldız alındı</strong> 🌟',a3:'Martin şantiyesi %6 KDV doğrulandı',a4:'ONSS mektubu çevrildi ve yanıtlandı',a5:'Hava durumu çalışma durumu bildirildi — Securex ve işçiler bilgilendirildi',a6:'3 fatura muhasebeye gönderildi',a7:'1 yıllık garanti hatırlatması planlandı',
-    s1:'💶 Nakit Akışı & Teklifler',s2:'🇧🇪 İdare & Çeviri',s3:'🏗️ Şantiyeler & Saha',s4:'📞 Sekreterlik',s5:'📁 Belgeler & Muhasebe',s6:'🚨 Aciller & Öncelikler',
-    b1:'Teklif hazırla',b1h:'TRIMONY profesyonel taslak oluşturur',b2:'Teklif hatırlatması',b2h:'J+3 / J+7 / J+14 otomatik tünel',b3:'Ödenmemiş fatura hatırlatması',b3h:'Gecikmiş fatura mini-panosu',b4:'Google yorumu iste',b4h:'Hazır mesajlı WhatsApp linki',b5:'Belçika mektubu — profesyonel',b5h:'Belediye, KDV, ONSS, tedarikçi',b6:'Özel mektubu anla',b6h:'Sigorta, ev sahibi, okul, ceza',b7:'Ceza veya faturaya itiraz et',b7h:'Otomatik oluşturulan resmi mektup',b8:'Yardıma hak kazanıyor muyum?',b8h:'Sizin için (4-5 gün) · Müşteriniz için (24-48s)',b9:'Şantiye durduruldu — hava',b9h:'Sosyal sekreterlik + işçiler eC3.2',b10:'Ek işler',b10h:'Ek sözleşme — müşteri email onayı',b11:'Şantiye tamamlandı',b11h:'Fatura + Tutanak + Google yorumu seçeneği',b12:'Profesyonel mesaj gönder',b12h:'Email veya WhatsApp — sesli veya yazılı',b13:'WhatsApp mesajı gönder',b13h:'Hazır mesajla açılır',b14:'Şantiye gecikmesini bildir',b14h:'Email veya WhatsApp tercihe göre',b15:'Arama için yardım',b15h:'4 saat içinde işlem',b16:'Muhasebeciye gönder',b16h:'Fotoğraf · Drive otomatik arşiv',b17:'Fotoğraf gönder',b17h:'Otomatik sınıflandırılır ve arşivlenir',b18:'KDV %6 — hak kazanıyor muyum?',b18h:'Yasal şerh otomatik eklenir',b19:'Acil idari dosya',b19h:'SLA : 4s acil · 24s normal',b20:'Saha acili',b20h:'Doğrudan alarm — kritik durumlar',
-    nav1:'Ana Sayfa',nav2:'Dosyalar',nav3:'Müşteriler',nav4:'Planlama',
-    btnSend:'✅ Gönder',btnIgnore:'Yoksay',btnSend2:'✅ Teklifi gönder',btnMod:'Düzenle',btnInteg:'✅ Teklife ekle',btnLater:'Sonra',
-  },
-  pt:{
-    demo:'🎯 Demo — funcionalidade ativa na versão cliente',sent:'✅ Mensagem enviada pelo TRIMONY',ignored:'Ignorado — ficará em espera',noted:'✅ Integrado no seu dossier',noteToast:'📝 Nota vocal ou texto — guardada no painel',
-    badge:'⚡ DEMO INTERATIVA — TRIMONY',
-    greeting:'Bom dia, <strong>Ermal</strong> 👷',
-    stat1:'ações tratadas',stat2:'recuperados este mês',stat3:'em espera',
-    session:'Sessão ativa · 7 dias restantes',
-    noteTitle:'Tirar uma nota rápida',noteSub:'Vocal ou texto · guardado no seu painel',
-    cfTitle:'💶 IMPACTO CASH-FLOW — ESTE MÊS',
-    cf1:'Fatura Dupont — 15 dias de atraso',cf1a:'3.500€',cf2:'Orçamento Martin — lembrete J+7',cf2a:'2.200€',cf3:'Fatura Leroy — paga ✅',cf3a:'6.700€',
-    sAction:'🟠 Aguarda a sua ação',sWork:'🟢 TRIMONY trabalhou para si',actTitle:'ATIVIDADE DE HOJE',
-    v1title:'Lembrete fatura — Dupont SPRL',v1time:'Há 2 horas',
-    v1draft:'Caro Sr. Dupont,<br><br>Permitimo-nos lembrá-lo que a fatura nº2024-089 no valor de <strong>3.500€</strong> está em atraso desde 15 de maio. Por favor efetue o pagamento o mais rapidamente possível.<br><br>Com os melhores cumprimentos, Ermal Krasniqi',
-    v2title:'Orçamento telhado — Martin',v2time:'Esta manhã',
-    v2draft:'Caro Sr. Martin,<br><br>Na sequência da nossa visita de 28 de maio, encontra em anexo o orçamento para a <strong>renovação completa do telhado</strong> (180m²).<br>Valor : <strong>22.400€ sem IVA</strong> — IVA 6% aplicável.<br><br>Este orçamento é válido por 30 dias.',
-    v3title:'Ajuda renovação — Cliente Fontaine',v3time:'Ontem',
-    v3draft:'TRIMONY verificou : <strong>A Sra. Fontaine tem direito a 2 ajudas</strong> :<br>• Prima RENOLUTION Wallonie : até <strong>4.000€</strong><br>• IVA reduzido 6% confirmado<br><br>💡 Integre estas ajudas no seu orçamento — argumento comercial forte.',
-    a1:'Lembrete fatura Leroy 6.700€ enviado — <strong>pago 2 horas depois</strong> ✅',a2:'Avaliação Google pedida — <strong>5 estrelas recebidas</strong> 🌟',a3:'IVA 6% verificado — menção legal injetada',a4:'Carta ONSS traduzida e respondida',a5:'Paragem por mau tempo declarada — Securex + trabalhadores notificados',a6:'3 faturas enviadas ao contabilista',a7:'Lembrete garantia 1 ano — planificado',
-    s1:'💶 Cash-flow & Orçamentos',s2:'🇧🇪 Administração & Tradução',s3:'🏗️ Obras & Terreno',s4:'📞 Secretariado',s5:'📁 Documentos & Contabilidade',s6:'🚨 Urgências & Prioridades',
-    b1:'Preparar um orçamento',b1h:'TRIMONY gera o rascunho profissional',b2:'Relembrar um orçamento',b2h:'Túnel J+3 / J+7 / J+14 automático',b3:'Relembrar fatura não paga',b3h:'Mini-painel faturas em atraso',b4:'Pedir avaliação Google',b4h:'WhatsApp direto com texto pré-preenchido',b5:'Carta belga — profissional',b5h:'Câmara, IVA, ONSS, fornecedor',b6:'Compreender uma carta privada',b6h:'Mútua, senhorio, escola, multa',b7:'Contestar uma multa ou fatura',b7h:'Carta oficial gerada automaticamente',b8:'Verificar se tenho direito a ajuda',b8h:'Para si (4-5 dias) · Para o cliente (24-48h)',b9:'Obra parada — mau tempo',b9h:'Secretariado social + trabalhadores eC3.2',b10:'Trabalhos suplementares',b10h:'Adenda — validação cliente por email',b11:'Obra terminada',b11h:'Fatura + Ata + avaliação Google à escolha',b12:'Enviar mensagem profissional',b12h:'Email ou WhatsApp — vocal ou texto',b13:'Enviar mensagem WhatsApp',b13h:'Abre com texto pré-preenchido',b14:'Avisar atraso na obra',b14h:'Email ou WhatsApp à escolha',b15:'Precisar de ajuda numa chamada',b15h:'Tratamento em 4 horas úteis',b16:'Enviar ao contabilista',b16h:'Foto · arquivo Drive automático',b17:'Enviar uma foto',b17h:'Classificada e arquivada automaticamente',b18:'IVA 6% — tenho direito?',b18h:'Menção legal injetada automaticamente',b19:'Dossier administrativo urgente',b19h:'SLA : 4h urgente · 24h normal',b20:'Urgência em obra',b20h:'Alerta direto — situações críticas',
-    nav1:'Início',nav2:'Dossiers',nav3:'Clientes',nav4:'Planeamento',
-    btnSend:'✅ Enviar',btnIgnore:'Ignorar',btnSend2:'✅ Enviar orçamento',btnMod:'Modificar',btnInteg:'✅ Integrar no orçamento',btnLater:'Mais tarde',
-  },
-  ro:{
-    demo:'🎯 Demo — funcționalitate activă în versiunea client',sent:'✅ Mesaj trimis prin TRIMONY',ignored:'Ignorat — va rămâne în așteptare',noted:'✅ Integrat în dosarul dvs.',noteToast:'📝 Notă vocală sau text — salvată în panou',
-    badge:'⚡ DEMO INTERACTIV — TRIMONY',
-    greeting:'Bună ziua, <strong>Ermal</strong> 👷',
-    stat1:'acțiuni tratate',stat2:'recuperați luna aceasta',stat3:'în așteptare',
-    session:'Sesiune activă · 7 zile rămase',
-    noteTitle:'Luați o notă rapidă',noteSub:'Vocal sau text · salvat în panoul dvs.',
-    cfTitle:'💶 IMPACT CASH-FLOW — LUNA ACEASTA',
-    cf1:'Factură Dupont — 15 zile întârziere',cf1a:'3.500€',cf2:'Deviz Martin — reminder J+7',cf2a:'2.200€',cf3:'Factură Leroy — plătită ✅',cf3a:'6.700€',
-    sAction:'🟠 Așteaptă acțiunea dvs.',sWork:'🟢 TRIMONY a lucrat pentru dvs.',actTitle:'ACTIVITATEA DE AZI',
-    v1title:'Reminder factură — Dupont SPRL',v1time:'Acum 2 ore',
-    v1draft:'Stimate dl. Dupont,<br><br>Vă reamintim că factura nr.2024-089 în valoare de <strong>3.500€</strong> este restantă din 15 mai. Vă rugăm să efectuați plata cât mai curând posibil.<br><br>Cu stimă, Ermal Krasniqi',
-    v2title:'Deviz acoperiș — Martin',v2time:'Dimineața aceasta',
-    v2draft:'Stimate dl. Martin,<br><br>În urma vizitei noastre din 28 mai, găsiți atașat devizul pentru <strong>renovarea completă a acoperișului</strong> (180m²).<br>Valoare : <strong>22.400€ fără TVA</strong> — TVA 6% aplicabil.<br><br>Acest deviz este valabil 30 de zile.',
-    v3title:'Ajutor renovare — Clientul Fontaine',v3time:'Ieri',
-    v3draft:'TRIMONY a verificat : <strong>Dna. Fontaine are dreptul la 2 ajutoare</strong> :<br>• Prima RENOLUTION Wallonie : până la <strong>4.000€</strong><br>• TVA redus 6% confirmat<br><br>💡 Integrați aceste ajutoare în devizul dvs. — argument comercial puternic.',
-    a1:'Reminder factură Leroy 6.700€ trimis — <strong>plătit 2 ore după</strong> ✅',a2:'Recenzie Google solicitată — <strong>5 stele primite</strong> 🌟',a3:'TVA 6% verificat — mențiunea legală injectată',a4:'Scrisoare ONSS tradusă și răspunsă',a5:'Oprire lucrări declarată — Securex + muncitori notificați',a6:'3 facturi trimise contabilului',a7:'Reminder garanție 1 an — planificat',
-    s1:'💶 Cash-flow & Devize',s2:'🇧🇪 Administrație & Traducere',s3:'🏗️ Șantiere & Teren',s4:'📞 Secretariat',s5:'📁 Documente & Contabilitate',s6:'🚨 Urgențe & Priorități',
-    b1:'Pregătiți un deviz',b1h:'TRIMONY generează ciorna profesională',b2:'Reminder deviz',b2h:'Tunel J+3 / J+7 / J+14 automat',b3:'Reminder factură neplătită',b3h:'Mini-dashboard facturi restante',b4:'Solicitați recenzie Google',b4h:'WhatsApp direct cu text precompletat',b5:'Scrisoare belgiană — profesională',b5h:'Primărie, TVA, ONSS, furnizor',b6:'Înțelegeți o scrisoare privată',b6h:'Asigurare, proprietar, școală, amendă',b7:'Contestați o amendă sau factură',b7h:'Scrisoare oficială generată automat',b8:'Verificați dacă aveți dreptul la ajutor',b8h:'Pentru dvs. (4-5 zile) · Pentru client (24-48h)',b9:'Șantier oprit — vreme',b9h:'Secretariat social + muncitori eC3.2',b10:'Lucrări suplimentare',b10h:'Anexă — validare client prin email',b11:'Șantier terminat',b11h:'Factură + PV + recenzie Google la alegere',b12:'Trimiteți mesaj profesional',b12h:'Email sau WhatsApp — vocal sau text',b13:'Trimiteți mesaj WhatsApp',b13h:'Se deschide cu text precompletat',b14:'Anunțați întârziere șantier',b14h:'Email sau WhatsApp la alegere',b15:'Ajutor pentru un apel',b15h:'Tratare în 4 ore lucrătoare',b16:'Trimiteți la contabil',b16h:'Foto · arhivare Drive auto',b17:'Trimiteți o fotografie',b17h:'Clasificată și arhivată automat',b18:'TVA 6% — am dreptul?',b18h:'Mențiunea legală injectată automat',b19:'Dosar administrativ urgent',b19h:'SLA : 4h urgent · 24h normal',b20:'Urgență șantier',b20h:'Alertă directă — situații critice',
-    nav1:'Acasă',nav2:'Dosare',nav3:'Clienți',nav4:'Planificare',
-    btnSend:'✅ Trimite',btnIgnore:'Ignoră',btnSend2:'✅ Trimite devizul',btnMod:'Modifică',btnInteg:'✅ Integrează în deviz',btnLater:'Mai târziu',
-  },
-  bs:{
-    demo:'🎯 Demo — funkcija aktivna u klijentskoj verziji',sent:'✅ Poruka poslana putem TRIMONY',ignored:'Zanemareno — ostat će u čekanju',noted:'✅ Integrirano u vaš dosje',noteToast:'📝 Glasovna ili tekstualna bilješka — sačuvana na panelu',
-    badge:'⚡ INTERAKTIVNI DEMO — TRIMONY',
-    greeting:'Dobar dan, <strong>Ermal</strong> 👷',
-    stat1:'obrađenih radnji',stat2:'naplaćeno ovog mjeseca',stat3:'u čekanju',
-    session:'Sesija aktivna · 7 dana preostalo',
-    noteTitle:'Napišite brzu bilješku',noteSub:'Glasovno ili tekstom · sačuvano na vašem panelu',
-    cfTitle:'💶 UTJECAJ NA CASH-FLOW — OVAJ MJESEC',
-    cf1:'Faktura Dupont — 15 dana kašnjenja',cf1a:'3.500€',cf2:'Ponuda Martin — podsjetnik J+7',cf2a:'2.200€',cf3:'Faktura Leroy — plaćena ✅',cf3a:'6.700€',
-    sAction:'🟠 Čeka vašu akciju',sWork:'🟢 TRIMONY je radio za vas',actTitle:'AKTIVNOST DANAS',
-    v1title:'Podsjetnik fakture — Dupont SPRL',v1time:'Prije 2 sata',
-    v1draft:'Poštovani g. Dupont,<br><br>Podsjećamo vas da faktura br.2024-089 u iznosu od <strong>3.500€</strong> kasni od 15. maja. Molimo vas da izvršite uplatu što je prije moguće.<br><br>S poštovanjem, Ermal Krasniqi',
-    v2title:'Ponuda krov — Martin',v2time:'Jutros',
-    v2draft:'Poštovani g. Martin,<br><br>Nakon naše posjete 28. maja, u prilogu pronađite ponudu za <strong>kompletnu renovaciju krova</strong> (180m²).<br>Iznos : <strong>22.400€ bez PDV-a</strong> — PDV 6% primjenjiv.<br><br>Ova ponuda vrijedi 30 dana.',
-    v3title:'Pomoć renovacija — Klijent Fontaine',v3time:'Juče',
-    v3draft:'TRIMONY je provjerio : <strong>Gđa. Fontaine ima pravo na 2 pomoći</strong> :<br>• Prima RENOLUTION Wallonie : do <strong>4.000€</strong><br>• Sniženi PDV 6% potvrđen<br><br>💡 Integrirajte ove pomoći u vašu ponudu — jak komercijalni argument.',
-    a1:'Podsjetnik fakture Leroy 6.700€ poslan — <strong>plaćeno 2 sata kasnije</strong> ✅',a2:'Google recenzija zatražena — <strong>5 zvjezdica primljeno</strong> 🌟',a3:'PDV 6% provjeren — pravna napomena ubrizgana',a4:'ONSS pismo prevedeno i odgovoreno',a5:'Zaustavljanje zbog vremena prijavljeno — Securex + radnici obaviješteni',a6:'3 fakture poslane računovođi',a7:'Podsjetnik garancije 1 godinu — planirano',
-    s1:'💶 Cash-flow & Ponude',s2:'🇧🇪 Administracija & Prevođenje',s3:'🏗️ Gradilišta & Teren',s4:'📞 Sekretarijat',s5:'📁 Dokumenti & Računovodstvo',s6:'🚨 Hitnosti & Prioriteti',
-    b1:'Pripremite ponudu',b1h:'TRIMONY generiše profesionalni nacrt',b2:'Podsjetnik ponude',b2h:'Tunel J+3 / J+7 / J+14 automatski',b3:'Podsjetnik neplaćene fakture',b3h:'Mini-panel faktura sa zakašnjenjem',b4:'Zatražite Google recenziju',b4h:'WhatsApp direktno sa predpopunjenim tekstom',b5:'Belgijsko pismo — profesionalno',b5h:'Općina, PDV, ONSS, dobavljač',b6:'Razumjeti privatno pismo',b6h:'Osiguranje, vlasnik, škola, kazna',b7:'Osporiti kaznu ili fakturu',b7h:'Službeno pismo automatski generisano',b8:'Provjerite imate li pravo na pomoć',b8h:'Za vas (4-5 dana) · Za klijenta (24-48h)',b9:'Gradilište zaustavljeno — vremenske prilike',b9h:'Socijalni sekretarijat + radnici eC3.2',b10:'Dodatni radovi',b10h:'Aneks — validacija klijenta emailom',b11:'Gradilište završeno',b11h:'Faktura + Zapisnik + Google recenzija po izboru',b12:'Pošaljite profesionalnu poruku',b12h:'Email ili WhatsApp — glasovno ili tekstom',b13:'Pošaljite WhatsApp poruku',b13h:'Otvara se s predpopunjenim tekstom',b14:'Obavijestite o kašnjenju gradilišta',b14h:'Email ili WhatsApp po izboru',b15:'Pomoć za poziv',b15h:'Obrada u roku od 4 sata',b16:'Pošaljite računovođi',b16h:'Foto · automatski arhiv Drive',b17:'Pošaljite fotografiju',b17h:'Automatski klasificirana i arhivirana',b18:'PDV 6% — imam li pravo?',b18h:'Pravna napomena automatski ubrizgana',b19:'Hitni administrativni dosje',b19h:'SLA : 4h hitno · 24h normalno',b20:'Hitnost na gradilištu',b20h:'Direktni alarm — kritične situacije',
-    nav1:'Početna',nav2:'Dosijei',nav3:'Klijenti',nav4:'Planiranje',
-    btnSend:'✅ Pošalji',btnIgnore:'Zanemari',btnSend2:'✅ Pošalji ponudu',btnMod:'Modificiraj',btnInteg:'✅ Integriraj u ponudu',btnLater:'Kasnije',
-  },
-  es:{
-    demo:'🎯 Demo — funcionalidad activa en la versión cliente',sent:'✅ Mensaje enviado desde TRIMONY',ignored:'Ignorado — permanecerá en espera',noted:'✅ Integrado en su expediente',noteToast:'📝 Nota vocal o texto — guardada en su panel',
-    badge:'⚡ DEMO INTERACTIVA — TRIMONY',
-    greeting:'Buenos días, <strong>Ermal</strong> 👷',
-    stat1:'acciones tratadas',stat2:'recuperados este mes',stat3:'en espera',
-    session:'Sesión activa · 7 días restantes',
-    noteTitle:'Tomar una nota rápida',noteSub:'Vocal o texto · guardado en su panel',
-    cfTitle:'💶 IMPACTO CASH-FLOW — ESTE MES',
-    cf1:'Factura Dupont — 15 días de retraso',cf1a:'3.500€',cf2:'Presupuesto Martin — recordatorio J+7',cf2a:'2.200€',cf3:'Factura Leroy — pagada ✅',cf3a:'6.700€',
-    sAction:'🟠 Espera su acción',sWork:'🟢 TRIMONY ha trabajado para usted',actTitle:'ACTIVIDAD DE HOY',
-    v1title:'Recordatorio factura — Dupont SPRL',v1time:'Hace 2 horas',
-    v1draft:'Estimado Sr. Dupont,<br><br>Le recordamos que la factura nº2024-089 por importe de <strong>3.500€</strong> está vencida desde el 15 de mayo. Le rogamos proceda al pago a la mayor brevedad posible.<br><br>Atentamente, Ermal Krasniqi',
-    v2title:'Presupuesto tejado — Martin',v2time:'Esta mañana',
-    v2draft:'Estimado Sr. Martin,<br><br>Tras nuestra visita del 28 de mayo, encontrará adjunto su presupuesto para la <strong>renovación completa del tejado</strong> (180m²).<br>Importe : <strong>22.400€ sin IVA</strong> — IVA 6% aplicable.<br><br>Este presupuesto es válido por 30 días.',
-    v3title:'Ayuda renovación — Cliente Fontaine',v3time:'Ayer',
-    v3draft:'TRIMONY verificó : <strong>La Sra. Fontaine tiene derecho a 2 ayudas</strong> :<br>• Prima RENOLUTION Wallonie : hasta <strong>4.000€</strong><br>• IVA reducido 6% confirmado<br><br>💡 Integre estas ayudas en su presupuesto — argumento comercial sólido.',
-    a1:'Recordatorio factura Leroy 6.700€ enviado — <strong>pagado 2 horas después</strong> ✅',a2:'Reseña Google solicitada — <strong>5 estrellas recibidas</strong> 🌟',a3:'IVA 6% verificado — mención legal inyectada',a4:'Carta ONSS traducida y respondida',a5:'Parada por climatología declarada — Securex + trabajadores notificados',a6:'3 facturas enviadas al contable',a7:'Recordatorio garantía 1 año — planificado',
-    s1:'💶 Cash-flow & Presupuestos',s2:'🇧🇪 Administración & Traducción',s3:'🏗️ Obras & Terreno',s4:'📞 Secretariado',s5:'📁 Documentos & Contabilidad',s6:'🚨 Urgencias & Prioridades',
-    b1:'Preparar un presupuesto',b1h:'TRIMONY genera el borrador profesional',b2:'Recordatorio presupuesto',b2h:'Túnel J+3 / J+7 / J+14 automático',b3:'Recordatorio factura impagada',b3h:'Mini-panel facturas en retraso',b4:'Solicitar reseña Google',b4h:'WhatsApp directo con texto prellenado',b5:'Carta belga — profesional',b5h:'Municipio, IVA, ONSS, proveedor',b6:'Entender una carta privada',b6h:'Mutua, propietario, escuela, multa',b7:'Impugnar una multa o factura',b7h:'Carta oficial generada automáticamente',b8:'Verificar si tengo derecho a ayuda',b8h:'Para usted (4-5 días) · Para el cliente (24-48h)',b9:'Obra parada — climatología',b9h:'Secretariado social + trabajadores eC3.2',b10:'Trabajos adicionales',b10h:'Addenda — validación cliente por email',b11:'Obra terminada',b11h:'Factura + Acta + reseña Google a elegir',b12:'Enviar mensaje profesional',b12h:'Email o WhatsApp — vocal o texto',b13:'Enviar mensaje WhatsApp',b13h:'Se abre con texto prellenado',b14:'Avisar retraso en obra',b14h:'Email o WhatsApp a elegir',b15:'Ayuda para una llamada',b15h:'Tramitación en 4 horas hábiles',b16:'Enviar al contable',b16h:'Foto · archivo Drive automático',b17:'Enviar una foto',b17h:'Clasificada y archivada automáticamente',b18:'IVA 6% — ¿tengo derecho?',b18h:'Mención legal inyectada automáticamente',b19:'Expediente administrativo urgente',b19h:'SLA : 4h urgente · 24h normal',b20:'Urgencia en obra',b20h:'Alerta directa — situaciones críticas',
-    nav1:'Inicio',nav2:'Expedientes',nav3:'Clientes',nav4:'Planificación',
-    btnSend:'✅ Enviar',btnIgnore:'Ignorar',btnSend2:'✅ Enviar presupuesto',btnMod:'Modificar',btnInteg:'✅ Integrar en presupuesto',btnLater:'Más tarde',
-  }
+  fr:{badge:'⚡ DÉMO INTERACTIVE — TRIMONY',greeting:'Bonjour, <strong>Ermal</strong> 👷',stat1:'actions traitées',stat2:'récupérés ce mois',stat3:'en attente',session:'Session active · 7 jours restants',noteTitle:'Prendre une note rapide',noteSub:'Vocal ou texte · sauvé dans votre cockpit',cfTitle:'💶 IMPACT CASH-FLOW — CE MOIS',cf1:'Facture Dupont — 15 jours de retard',cf1a:'3.500€',cf2:'Devis Martin — relance J+7',cf2a:'2.200€',cf3:'Facture Leroy — payée ✅',cf3a:'6.700€',sAction:'🟠 Attend votre action',sWork:'🟢 TRIMONY a travaillé pour vous',actTitle:"FIL D'ACTIVITÉ — AUJOURD'HUI",v1title:'Relance facture — Dupont SPRL',v1time:'Il y a 2h',v1draft:'Bonjour M. Dupont,<br><br>Nous nous permettons de vous rappeler que la facture n°2024-089 d\'un montant de <strong>3.500€</strong> est échue depuis le 15 mai. Pourriez-vous procéder au règlement dans les meilleurs délais ?<br><br>Cordialement, Ermal Krasniqi',v2title:'Devis toiture — Martin',v2time:'Ce matin',v2draft:'Bonjour M. Martin,<br><br>Suite à notre visite du 28 mai, veuillez trouver ci-joint votre devis pour la <strong>réfection complète de la toiture</strong> (180m²).<br>Montant : <strong>22.400€ HTVA</strong> — TVA 6% applicable.<br><br>Ce devis est valable 30 jours.',v3title:'Aide prime rénovation — Client Fontaine',v3time:'Hier',v3draft:'TRIMONY a vérifié : <strong>Mme Fontaine est éligible à 2 aides</strong> :<br>• Prime RENOLUTION Wallonie : jusqu\'à <strong>4.000€</strong><br>• TVA réduite 6% confirmée<br><br>💡 Intégrez ces aides dans votre devis — argument commercial fort.',a1:'Relance facture Leroy 6.700€ envoyée — <strong>payée 2h après</strong> ✅',a2:'Avis Google demandé à Mme Dubois — <strong>5 étoiles reçues</strong> 🌟',a3:'TVA 6% vérifiée chantier Martin — mention légale injectée sur devis',a4:'Courrier ONSS traduit et réponse envoyée — délai évité',a5:'Chantier météo déclaré — Securex prévenu + ouvriers notifiés',a6:'3 factures envoyées au comptable — classées Drive COMPTA_2026',a7:'Rappel garantie 1 an — chantier Fontaine planifié dans 365 jours',s1:'💶 Cash-flow & Devis',s2:'🇧🇪 Administration & Traduction',s3:'🏗️ Chantiers & Terrain',s4:'📞 Secrétariat',s5:'📁 Documents & Comptabilité',s6:'🚨 Urgences & Priorités',b1:'Préparer un devis',b1h:'TRIMONY génère le draft professionnel',b2:'Relancer un devis',b2h:'Tunnel J+3 / J+7 / J+14 automatique',b3:'Relancer une facture impayée',b3h:'Mini-dashboard factures en retard',b4:'Demander un avis Google',b4h:'WhatsApp direct avec lien pré-rempli',b5:'Courrier belge — professionnel',b5h:'Commune, TVA, ONSS, fournisseur',b6:'Comprendre un courrier privé',b6h:'Mutuelle, proprio, école, amende',b7:'Contester une amende ou facture',b7h:'Lettre officielle générée automatiquement',b8:"Vérifier si j'ai droit à une aide",b8h:'Pour vous (4-5j) · Pour votre client (24-48h)',b9:'Chantier arrêté — météo',b9h:'Secrétariat social + ouvriers eC3.2',b10:'Travaux supplémentaires',b10h:'Avenant — validation client par email',b11:'Chantier terminé',b11h:'Facture + PV + avis Google au choix',b12:'Envoyer un message professionnel',b12h:'Email ou WhatsApp — vocal ou texte',b13:'Envoyer un message WhatsApp',b13h:"S'ouvre avec texte pré-rempli",b14:'Prévenir un retard chantier',b14h:'Email ou WhatsApp au choix',b15:"Besoin d'aide pour un appel",b15h:'Traitement sous 4h ouvrables',b16:'Envoyer au comptable',b16h:'Photo · archivage Drive auto',b17:'Envoyer une photo',b17h:'Classée et archivée automatiquement',b18:"TVA 6% — est-ce que j'y ai droit ?",b18h:'Mention légale injectée automatiquement',b19:'Dossier administratif urgent',b19h:'SLA : 4h urgent · 24h normal',b20:'Urgence terrain',b20h:'Alerte directe — situations critiques',nav1:'Accueil',nav2:'Dossiers',nav3:'Clients',nav4:'Planning',sent:'✅ Message envoyé depuis TRIMONY',ignored:'Ignoré — restera en attente',noted:'✅ Intégré dans votre dossier client',demo:'🎯 Démo — fonctionnalité active dans la version client'},
+  al:{badge:'⚡ DEMO INTERAKTIVE — TRIMONY',greeting:'Mirëdita, <strong>Ermal</strong> 👷',stat1:'veprime të trajtuara',stat2:'të mbledhura këtë muaj',stat3:'në pritje',session:'Sesion aktiv · 7 ditë mbetur',noteTitle:'Bëni një shënim të shpejtë',noteSub:'Vocal ose tekst · ruajtur në panel tuaj',cfTitle:'💶 IMPAKTI CASH-FLOW — KY MUAJ',cf1:'Fatura Dupont — 15 ditë vonë',cf1a:'3.500€',cf2:'Oferta Martin — kujtues J+7',cf2a:'2.200€',cf3:'Fatura Leroy — paguar ✅',cf3a:'6.700€',sAction:'🟠 Pret veprimin tuaj',sWork:'🟢 TRIMONY ka punuar për ju',actTitle:'AKTIVITETI I SOTËM',v1title:'Kujtues fatura — Dupont SPRL',v1time:'2 orë më parë',v1draft:'I nderuar Z. Dupont,<br><br>Ju kujtojmë se fatura nr.2024-089 prej <strong>3.500€</strong> ka skaduar që nga 15 maji. Ju lutemi kryeni pagesën sa më shpejt.<br><br>Me respekt, Ermal Krasniqi',v2title:'Ofertë çati — Martin',v2time:'Sot në mëngjes',v2draft:'I nderuar Z. Martin,<br><br>Sipas vizitës sonë të 28 majit, gjeni bashkëlidhur ofertën për <strong>rinovimin e plotë të çatisë</strong> (180m²).<br>Shuma : <strong>22.400€ pa TVSH</strong> — TVSH 6% e aplikueshme.<br><br>Kjo ofertë është e vlefshme 30 ditë.',v3title:'Ndihmë renovimi — Klienti Fontaine',v3time:'Dje',v3draft:'TRIMONY verifikoi : <strong>Znj. Fontaine ka të drejtë për 2 ndihma</strong> :<br>• Prima RENOLUTION Wallonie : deri në <strong>4.000€</strong><br>• TVSH e reduktuar 6% e konfirmuar<br><br>💡 Integroni këto ndihma në ofertën tuaj.',a1:'Kujtues fatura Leroy 6.700€ dërguar — <strong>paguar 2 orë pas</strong> ✅',a2:'Koment Google kërkuar — <strong>5 yje marrë</strong> 🌟',a3:'TVSH 6% verifikuar — shënimi ligjor injektuar',a4:'Letra ONSS përkthyer dhe përgjigjur',a5:'Ndalesë pune deklaruar — Securex + punëtorët',a6:'3 fatura dërguar te kontabilisti',a7:'Kujtues garanci 1 vit — planifikuar',s1:'💶 Cash-flow & Oferta',s2:'🇧🇪 Administrim & Përkthim',s3:'🏗️ Kantiere & Terren',s4:'📞 Sekretariat',s5:'📁 Dokumente & Kontabilitet',s6:'🚨 Urgjencat & Prioritetet',b1:'Përgatit një ofertë',b1h:'TRIMONY gjeneron draftin profesional',b2:'Kujtues ofertë',b2h:'Tunel J+3 / J+7 / J+14 automatik',b3:'Kujtues fatura e papaguar',b3h:'Dashboard fakturat me vonesë',b4:'Kërko koment Google',b4h:'WhatsApp direkt me tekst të parapërgatitur',b5:'Letër belge — profesionale',b5h:'Komunë, TVA, ONSS, furnizues',b6:'Kuptoni një letër private',b6h:'Sigurim, pronar, shkollë, gjobë',b7:'Kundërshtoni gjobë ose faturë',b7h:'Letër zyrtare e gjeneruar automatikisht',b8:'Kontrolloni nëse keni të drejtë ndihme',b8h:'Për ju (4-5 ditë) · Për klientin (24-48h)',b9:'Kantierie ndalur — mot',b9h:'Sekretariat social + punëtorë eC3.2',b10:'Punë shtesë',b10h:'Shtojcë — validim klient me email',b11:'Kantieri i mbaruar',b11h:'Faturë + PV + koment Google sipas dëshirës',b12:'Dërgo mesazh profesional',b12h:'Email ose WhatsApp — vocal ose tekst',b13:'Dërgo mesazh WhatsApp',b13h:'Hapet me tekst të parapërgatitur',b14:'Paralajmëro vonesë kantieri',b14h:'Email ose WhatsApp sipas zgjedhjes',b15:'Ndihmë për thirrje',b15h:'Trajtim brenda 4 orësh',b16:'Dërgo te kontabilisti',b16h:'Foto · arkivim Drive automatik',b17:'Dërgo foto',b17h:'E klasifikuar dhe arkivuar automatikisht',b18:'TVSH 6% — a kam të drejtë?',b18h:'Shënimi ligjor injektohet automatikisht',b19:'Dosje administrative urgente',b19h:'SLA : 4h urgente · 24h normale',b20:'Urgjencë kantieri',b20h:'Alarm direkt — situata kritike',nav1:'Kryefaqe',nav2:'Dosjet',nav3:'Klientët',nav4:'Planifikimi',sent:'✅ Mesazhi u dërgua nga TRIMONY',ignored:'Injoruar — do të mbetet në pritje',noted:'✅ Integruar në dosjen tuaj',demo:'🎯 Demo — funksioni aktiv në versionin e klientit'},
+  tr:{badge:'⚡ İNTERAKTİF DEMO — TRIMONY',greeting:'Merhaba, <strong>Ermal</strong> 👷',stat1:'işlem tamamlandı',stat2:'bu ay tahsil edildi',stat3:'beklemede',session:'Oturum aktif · 7 gün kaldı',noteTitle:'Hızlı not al',noteSub:'Sesli veya yazılı · panelinize kaydedildi',cfTitle:'💶 NAKİT AKIŞI ETKİSİ — BU AY',cf1:'Dupont faturası — 15 gün gecikme',cf1a:'3.500€',cf2:'Martin teklifi — J+7 hatırlatma',cf2a:'2.200€',cf3:'Leroy faturası — ödendi ✅',cf3a:'6.700€',sAction:'🟠 Onayınızı bekliyor',sWork:'🟢 TRIMONY sizin için çalıştı',actTitle:'BUGÜNÜN FAALİYETLERİ',v1title:'Fatura hatırlatma — Dupont SPRL',v1time:'2 saat önce',v1draft:'Sayın Bay Dupont,<br><br>2024-089 no\'lu <strong>3.500€</strong> tutarındaki faturanızın 15 Mayıs\'tan beri ödenmediğini hatırlatmak isteriz.<br><br>Saygılarımızla, Ermal Krasniqi',v2title:'Çatı teklifi — Martin',v2time:'Bu sabah',v2draft:'Sayın Bay Martin,<br><br>28 Mayıs ziyaretimiz doğrultusunda <strong>çatı tamiri teklifinizi</strong> (180m²) ekte bulabilirsiniz.<br>Tutar : <strong>22.400€ + KDV</strong> — %6 KDV uygulanabilir.<br><br>Teklif 30 gün geçerlidir.',v3title:'Tadilat yardımı — Fontaine Müşterisi',v3time:'Dün',v3draft:'TRIMONY inceledi : <strong>Bayan Fontaine 2 yardıma hak kazanıyor</strong> :<br>• RENOLUTION Wallonie primi : <strong>4.000€\'ya kadar</strong><br>• %6 indirimli KDV onaylandı<br><br>💡 Bu yardımları teklifinize ekleyin.',a1:'Leroy faturası 6.700€ gönderildi — <strong>2 saat sonra ödendi</strong> ✅',a2:'Google yorumu istendi — <strong>5 yıldız alındı</strong> 🌟',a3:'Martin şantiyesi %6 KDV doğrulandı',a4:'ONSS mektubu çevrildi ve yanıtlandı',a5:'Hava durumu çalışma durumu bildirildi',a6:'3 fatura muhasebeye gönderildi',a7:'1 yıllık garanti hatırlatması planlandı',s1:'💶 Nakit Akışı & Teklifler',s2:'🇧🇪 İdare & Çeviri',s3:'🏗️ Şantiyeler & Saha',s4:'📞 Sekreterlik',s5:'📁 Belgeler & Muhasebe',s6:'🚨 Aciller & Öncelikler',b1:'Teklif hazırla',b1h:'TRIMONY profesyonel taslak oluşturur',b2:'Teklif hatırlatması',b2h:'J+3 / J+7 / J+14 otomatik tünel',b3:'Ödenmemiş fatura hatırlatması',b3h:'Gecikmiş fatura mini-panosu',b4:'Google yorumu iste',b4h:'Hazır mesajlı WhatsApp linki',b5:'Belçika mektubu — profesyonel',b5h:'Belediye, KDV, ONSS, tedarikçi',b6:'Özel mektubu anla',b6h:'Sigorta, ev sahibi, okul, ceza',b7:'Ceza veya faturaya itiraz et',b7h:'Otomatik oluşturulan resmi mektup',b8:'Yardıma hak kazanıyor muyum?',b8h:'Sizin için (4-5 gün) · Müşteriniz için (24-48s)',b9:'Şantiye durduruldu — hava',b9h:'Sosyal sekreterlik + işçiler eC3.2',b10:'Ek işler',b10h:'Ek sözleşme — müşteri email onayı',b11:'Şantiye tamamlandı',b11h:'Fatura + Tutanak + Google yorumu seçeneği',b12:'Profesyonel mesaj gönder',b12h:'Email veya WhatsApp — sesli veya yazılı',b13:'WhatsApp mesajı gönder',b13h:'Hazır mesajla açılır',b14:'Şantiye gecikmesini bildir',b14h:'Email veya WhatsApp tercihe göre',b15:'Arama için yardım',b15h:'4 saat içinde işlem',b16:'Muhasebeciye gönder',b16h:'Fotoğraf · Drive otomatik arşiv',b17:'Fotoğraf gönder',b17h:'Otomatik sınıflandırılır ve arşivlenir',b18:'KDV %6 — hak kazanıyor muyum?',b18h:'Yasal şerh otomatik eklenir',b19:'Acil idari dosya',b19h:'SLA : 4s acil · 24s normal',b20:'Saha acili',b20h:'Doğrudan alarm — kritik durumlar',nav1:'Ana Sayfa',nav2:'Dosyalar',nav3:'Müşteriler',nav4:'Planlama',sent:"✅ Mesaj TRIMONY'den gönderildi",ignored:'Yoksayıldı — beklemede kalacak',noted:'✅ Müşteri dosyanıza eklendi',demo:'🎯 Demo — özellik müşteri sürümünde aktif'},
+  it:{badge:'⚡ DEMO INTERATTIVA — TRIMONY',greeting:'Buongiorno, <strong>Ermal</strong> 👷',stat1:'azioni trattate',stat2:'recuperati questo mese',stat3:'in attesa',session:'Sessione attiva · 7 giorni rimanenti',noteTitle:'Prendere un appunto rapido',noteSub:'Vocale o testo · salvato nel cockpit',cfTitle:'💶 IMPATTO CASH-FLOW — QUESTO MESE',cf1:'Fattura Dupont — 15 giorni di ritardo',cf1a:'3.500€',cf2:'Preventivo Martin — sollecito J+7',cf2a:'2.200€',cf3:'Fattura Leroy — pagata ✅',cf3a:'6.700€',sAction:'🟠 Attende la sua azione',sWork:'🟢 TRIMONY ha lavorato per lei',actTitle:"ATTIVITÀ DI OGGI",v1title:'Sollecito fattura — Dupont SPRL',v1time:'2 ore fa',v1draft:"Gentile Sig. Dupont,<br><br>Le ricordiamo che la fattura n°2024-089 di <strong>3.500€</strong> è scaduta dal 15 maggio. La preghiamo di effettuare il pagamento al più presto.<br><br>Cordiali saluti, Ermal Krasniqi",v2title:'Preventivo tetto — Martin',v2time:'Stamattina',v2draft:"Gentile Sig. Martin,<br><br>In seguito alla nostra visita del 28 maggio, trova in allegato il preventivo per il <strong>rifacimento completo del tetto</strong> (180m²).<br>Importo : <strong>22.400€ IVA esclusa</strong> — IVA 6% applicabile.<br><br>Questo preventivo è valido 30 giorni.",v3title:'Aiuto ristrutturazione — Cliente Fontaine',v3time:'Ieri',v3draft:'TRIMONY ha verificato : <strong>La Sig.ra Fontaine ha diritto a 2 aiuti</strong> :<br>• Bonus RENOLUTION Wallonie : fino a <strong>4.000€</strong><br>• IVA ridotta 6% confermata<br><br>💡 Integri questi aiuti nel preventivo.',a1:'Sollecito fattura Leroy 6.700€ inviato — <strong>pagata 2h dopo</strong> ✅',a2:'Recensione Google richiesta — <strong>5 stelle ricevute</strong> 🌟',a3:'IVA 6% verificata cantiere Martin',a4:'Lettera ONSS tradotta e risposta inviata',a5:'Sospensione lavori dichiarata — Securex notificato',a6:'3 fatture inviate al commercialista',a7:'Promemoria garanzia 1 anno — pianificato',s1:'💶 Cash-flow & Preventivi',s2:'🇧🇪 Amministrazione & Traduzione',s3:'🏗️ Cantieri & Campo',s4:'📞 Segreteria',s5:'📁 Documenti & Contabilità',s6:'🚨 Urgenze & Priorità',b1:'Preparare un preventivo',b1h:'TRIMONY genera la bozza professionale',b2:'Sollecitare un preventivo',b2h:'Tunnel J+3 / J+7 / J+14 automatico',b3:'Sollecitare fattura non pagata',b3h:'Mini-dashboard fatture in ritardo',b4:'Richiedere recensione Google',b4h:'WhatsApp diretto con testo precompilato',b5:'Lettera belga — professionale',b5h:'Comune, IVA, ONSS, fornitore',b6:'Capire una lettera privata',b6h:'Mutua, proprietario, scuola, multa',b7:'Contestare una multa o fattura',b7h:'Lettera ufficiale generata automaticamente',b8:'Verificare se ho diritto a un aiuto',b8h:'Per lei (4-5 giorni) · Per il cliente (24-48h)',b9:'Cantiere fermo — maltempo',b9h:'Segreteria sociale + operai eC3.2',b10:'Lavori aggiuntivi',b10h:'Addenda — validazione cliente via email',b11:'Cantiere terminato',b11h:'Fattura + Verbale + recensione Google',b12:'Inviare messaggio professionale',b12h:'Email o WhatsApp — vocale o testo',b13:'Inviare messaggio WhatsApp',b13h:'Si apre con testo precompilato',b14:'Avvisare ritardo cantiere',b14h:'Email o WhatsApp a scelta',b15:'Aiuto per una chiamata',b15h:'Elaborazione entro 4 ore lavorative',b16:'Inviare al commercialista',b16h:'Foto · archivio Drive automatico',b17:'Inviare una foto',b17h:'Classificata e archiviata automaticamente',b18:'IVA 6% — ne ho diritto?',b18h:'Menzione legale iniettata automaticamente',b19:'Pratica amministrativa urgente',b19h:'SLA : 4h urgente · 24h normale',b20:'Urgenza cantiere',b20h:'Allarme diretto — situazioni critiche',nav1:'Home',nav2:'Pratiche',nav3:'Clienti',nav4:'Pianificazione',sent:'✅ Messaggio inviato da TRIMONY',ignored:'Ignorato — rimarrà in attesa',noted:'✅ Integrato nel suo dossier',demo:'🎯 Demo — funzionalità attiva nella versione cliente'},
+  pt:{badge:'⚡ DEMO INTERATIVA — TRIMONY',greeting:'Bom dia, <strong>Ermal</strong> 👷',stat1:'ações tratadas',stat2:'recuperados este mês',stat3:'em espera',session:'Sessão ativa · 7 dias restantes',noteTitle:'Tirar uma nota rápida',noteSub:'Vocal ou texto · guardado no painel',cfTitle:'💶 IMPACTO CASH-FLOW — ESTE MÊS',cf1:'Fatura Dupont — 15 dias de atraso',cf1a:'3.500€',cf2:'Orçamento Martin — lembrete J+7',cf2a:'2.200€',cf3:'Fatura Leroy — paga ✅',cf3a:'6.700€',sAction:'🟠 Aguarda a sua ação',sWork:'🟢 TRIMONY trabalhou para si',actTitle:'ATIVIDADE DE HOJE',v1title:'Lembrete fatura — Dupont SPRL',v1time:'Há 2 horas',v1draft:'Caro Sr. Dupont,<br><br>Permitimo-nos lembrá-lo que a fatura nº2024-089 no valor de <strong>3.500€</strong> está em atraso desde 15 de maio.<br><br>Com os melhores cumprimentos, Ermal Krasniqi',v2title:'Orçamento telhado — Martin',v2time:'Esta manhã',v2draft:'Caro Sr. Martin,<br><br>Na sequência da nossa visita de 28 de maio, encontra em anexo o orçamento para a <strong>renovação completa do telhado</strong> (180m²).<br>Valor : <strong>22.400€ sem IVA</strong> — IVA 6% aplicável.<br><br>Este orçamento é válido por 30 dias.',v3title:'Ajuda renovação — Cliente Fontaine',v3time:'Ontem',v3draft:'TRIMONY verificou : <strong>A Sra. Fontaine tem direito a 2 ajudas</strong> :<br>• Prima RENOLUTION Wallonie : até <strong>4.000€</strong><br>• IVA reduzido 6% confirmado<br><br>💡 Integre estas ajudas no orçamento.',a1:'Lembrete fatura Leroy 6.700€ enviado — <strong>pago 2 horas depois</strong> ✅',a2:'Avaliação Google pedida — <strong>5 estrelas recebidas</strong> 🌟',a3:'IVA 6% verificado — menção legal injetada',a4:'Carta ONSS traduzida e respondida',a5:'Paragem por mau tempo declarada',a6:'3 faturas enviadas ao contabilista',a7:'Lembrete garantia 1 ano — planificado',s1:'💶 Cash-flow & Orçamentos',s2:'🇧🇪 Administração & Tradução',s3:'🏗️ Obras & Terreno',s4:'📞 Secretariado',s5:'📁 Documentos & Contabilidade',s6:'🚨 Urgências & Prioridades',b1:'Preparar um orçamento',b1h:'TRIMONY gera o rascunho profissional',b2:'Relembrar um orçamento',b2h:'Túnel J+3 / J+7 / J+14 automático',b3:'Relembrar fatura não paga',b3h:'Mini-painel faturas em atraso',b4:'Pedir avaliação Google',b4h:'WhatsApp direto com texto pré-preenchido',b5:'Carta belga — profissional',b5h:'Câmara, IVA, ONSS, fornecedor',b6:'Compreender uma carta privada',b6h:'Mútua, senhorio, escola, multa',b7:'Contestar uma multa ou fatura',b7h:'Carta oficial gerada automaticamente',b8:'Verificar se tenho direito a ajuda',b8h:'Para si (4-5 dias) · Para o cliente (24-48h)',b9:'Obra parada — mau tempo',b9h:'Secretariado social + trabalhadores eC3.2',b10:'Trabalhos suplementares',b10h:'Adenda — validação cliente por email',b11:'Obra terminada',b11h:'Fatura + Ata + avaliação Google',b12:'Enviar mensagem profissional',b12h:'Email ou WhatsApp — vocal ou texto',b13:'Enviar mensagem WhatsApp',b13h:'Abre com texto pré-preenchido',b14:'Avisar atraso na obra',b14h:'Email ou WhatsApp à escolha',b15:'Precisar de ajuda numa chamada',b15h:'Tratamento em 4 horas úteis',b16:'Enviar ao contabilista',b16h:'Foto · arquivo Drive automático',b17:'Enviar uma foto',b17h:'Classificada e arquivada automaticamente',b18:'IVA 6% — tenho direito?',b18h:'Menção legal injetada automaticamente',b19:'Dossier administrativo urgente',b19h:'SLA : 4h urgente · 24h normal',b20:'Urgência em obra',b20h:'Alerta direto — situações críticas',nav1:'Início',nav2:'Dossiers',nav3:'Clientes',nav4:'Planeamento',sent:'✅ Mensagem enviada pelo TRIMONY',ignored:'Ignorado — ficará em espera',noted:'✅ Integrado no seu dossier',demo:'🎯 Demo — funcionalidade ativa na versão cliente'},
+  ro:{badge:'⚡ DEMO INTERACTIV — TRIMONY',greeting:'Bună ziua, <strong>Ermal</strong> 👷',stat1:'acțiuni tratate',stat2:'recuperați luna aceasta',stat3:'în așteptare',session:'Sesiune activă · 7 zile rămase',noteTitle:'Luați o notă rapidă',noteSub:'Vocal sau text · salvat în panoul dvs.',cfTitle:'💶 IMPACT CASH-FLOW — LUNA ACEASTA',cf1:'Factură Dupont — 15 zile întârziere',cf1a:'3.500€',cf2:'Deviz Martin — reminder J+7',cf2a:'2.200€',cf3:'Factură Leroy — plătită ✅',cf3a:'6.700€',sAction:'🟠 Așteaptă acțiunea dvs.',sWork:'🟢 TRIMONY a lucrat pentru dvs.',actTitle:'ACTIVITATEA DE AZI',v1title:'Reminder factură — Dupont SPRL',v1time:'Acum 2 ore',v1draft:'Stimate dl. Dupont,<br><br>Vă reamintim că factura nr.2024-089 în valoare de <strong>3.500€</strong> este restantă din 15 mai.<br><br>Cu stimă, Ermal Krasniqi',v2title:'Deviz acoperiș — Martin',v2time:'Dimineața aceasta',v2draft:'Stimate dl. Martin,<br><br>În urma vizitei noastre din 28 mai, găsiți atașat devizul pentru <strong>renovarea completă a acoperișului</strong> (180m²).<br>Valoare : <strong>22.400€ fără TVA</strong> — TVA 6% aplicabil.<br><br>Devizul este valabil 30 de zile.',v3title:'Ajutor renovare — Clientul Fontaine',v3time:'Ieri',v3draft:'TRIMONY a verificat : <strong>Dna. Fontaine are dreptul la 2 ajutoare</strong> :<br>• Prima RENOLUTION Wallonie : până la <strong>4.000€</strong><br>• TVA redus 6% confirmat<br><br>💡 Integrați aceste ajutoare în deviz.',a1:'Reminder factură Leroy 6.700€ trimis — <strong>plătit 2 ore după</strong> ✅',a2:'Recenzie Google solicitată — <strong>5 stele primite</strong> 🌟',a3:'TVA 6% verificat — mențiunea legală injectată',a4:'Scrisoare ONSS tradusă și răspunsă',a5:'Oprire lucrări declarată',a6:'3 facturi trimise contabilului',a7:'Reminder garanție 1 an — planificat',s1:'💶 Cash-flow & Devize',s2:'🇧🇪 Administrație & Traducere',s3:'🏗️ Șantiere & Teren',s4:'📞 Secretariat',s5:'📁 Documente & Contabilitate',s6:'🚨 Urgențe & Priorități',b1:'Pregătiți un deviz',b1h:'TRIMONY generează ciorna profesională',b2:'Reminder deviz',b2h:'Tunel J+3 / J+7 / J+14 automat',b3:'Reminder factură neplătită',b3h:'Mini-dashboard facturi restante',b4:'Solicitați recenzie Google',b4h:'WhatsApp direct cu text precompletat',b5:'Scrisoare belgiană — profesională',b5h:'Primărie, TVA, ONSS, furnizor',b6:'Înțelegeți o scrisoare privată',b6h:'Asigurare, proprietar, școală, amendă',b7:'Contestați o amendă sau factură',b7h:'Scrisoare oficială generată automat',b8:'Verificați dacă aveți dreptul la ajutor',b8h:'Pentru dvs. (4-5 zile) · Pentru client (24-48h)',b9:'Șantier oprit — vreme',b9h:'Secretariat social + muncitori eC3.2',b10:'Lucrări suplimentare',b10h:'Anexă — validare client prin email',b11:'Șantier terminat',b11h:'Factură + PV + recenzie Google',b12:'Trimiteți mesaj profesional',b12h:'Email sau WhatsApp — vocal sau text',b13:'Trimiteți mesaj WhatsApp',b13h:'Se deschide cu text precompletat',b14:'Anunțați întârziere șantier',b14h:'Email sau WhatsApp la alegere',b15:'Ajutor pentru un apel',b15h:'Tratare în 4 ore lucrătoare',b16:'Trimiteți la contabil',b16h:'Foto · arhivare Drive auto',b17:'Trimiteți o fotografie',b17h:'Clasificată și arhivată automat',b18:'TVA 6% — am dreptul?',b18h:'Mențiunea legală injectată automat',b19:'Dosar administrativ urgent',b19h:'SLA : 4h urgent · 24h normal',b20:'Urgență șantier',b20h:'Alertă directă — situații critice',nav1:'Acasă',nav2:'Dosare',nav3:'Clienți',nav4:'Planificare',sent:'✅ Mesaj trimis prin TRIMONY',ignored:'Ignorat — va rămâne în așteptare',noted:'✅ Integrat în dosarul dvs.',demo:'🎯 Demo — funcționalitate activă în versiunea client'},
+  bs:{badge:'⚡ INTERAKTIVNI DEMO — TRIMONY',greeting:'Dobar dan, <strong>Ermal</strong> 👷',stat1:'obrađenih radnji',stat2:'naplaćeno ovog mjeseca',stat3:'u čekanju',session:'Sesija aktivna · 7 dana preostalo',noteTitle:'Napišite brzu bilješku',noteSub:'Glasovno ili tekstom · sačuvano na vašem panelu',cfTitle:'💶 UTJECAJ NA CASH-FLOW — OVAJ MJESEC',cf1:'Faktura Dupont — 15 dana kašnjenja',cf1a:'3.500€',cf2:'Ponuda Martin — podsjetnik J+7',cf2a:'2.200€',cf3:'Faktura Leroy — plaćena ✅',cf3a:'6.700€',sAction:'🟠 Čeka vašu akciju',sWork:'🟢 TRIMONY je radio za vas',actTitle:'AKTIVNOST DANAS',v1title:'Podsjetnik fakture — Dupont SPRL',v1time:'Prije 2 sata',v1draft:'Poštovani g. Dupont,<br><br>Podsjećamo vas da faktura br.2024-089 u iznosu od <strong>3.500€</strong> kasni od 15. maja.<br><br>S poštovanjem, Ermal Krasniqi',v2title:'Ponuda krov — Martin',v2time:'Jutros',v2draft:'Poštovani g. Martin,<br><br>Nakon naše posjete 28. maja, u prilogu pronađite ponudu za <strong>kompletnu renovaciju krova</strong> (180m²).<br>Iznos : <strong>22.400€ bez PDV-a</strong> — PDV 6% primjenjiv.<br><br>Ova ponuda vrijedi 30 dana.',v3title:'Pomoć renovacija — Klijent Fontaine',v3time:'Juče',v3draft:'TRIMONY je provjerio : <strong>Gđa. Fontaine ima pravo na 2 pomoći</strong> :<br>• Prima RENOLUTION Wallonie : do <strong>4.000€</strong><br>• Sniženi PDV 6% potvrđen<br><br>💡 Integrirajte ove pomoći u vašu ponudu.',a1:'Podsjetnik fakture Leroy 6.700€ poslan — <strong>plaćeno 2 sata kasnije</strong> ✅',a2:'Google recenzija zatražena — <strong>5 zvjezdica primljeno</strong> 🌟',a3:'PDV 6% provjeren — pravna napomena ubrizgana',a4:'ONSS pismo prevedeno i odgovoreno',a5:'Zaustavljanje zbog vremena prijavljeno',a6:'3 fakture poslane računovođi',a7:'Podsjetnik garancije 1 godinu — planirano',s1:'💶 Novčani tok & Ponude',s2:'🇧🇪 Administracija & Prijevod',s3:'🏗️ Gradilište & Teren',s4:'📞 Sekretarijat',s5:'📁 Dokumenti & Računovodstvo',s6:'🚨 Hitnosti & Prioriteti',b1:'Pripremite ponudu',b1h:'TRIMONY generira profesionalni nacrt',b2:'Podsjetnik ponude',b2h:'Tunel J+3 / J+7 / J+14 automatski',b3:'Podsjetnik neplaćene fakture',b3h:'Mini-panel faktura sa zakašnjenjem',b4:'Zatražite Google recenziju',b4h:'WhatsApp direktno sa predpopunjenim tekstom',b5:'Belgijsko pismo — profesionalno',b5h:'Općina, PDV, ONSS, dobavljač',b6:'Razumjeti privatno pismo',b6h:'Osiguranje, vlasnik, škola, kazna',b7:'Osporiti kaznu ili fakturu',b7h:'Službeno pismo automatski generirano',b8:'Provjerite imate li pravo na pomoć',b8h:'Za vas (4-5 dana) · Za klijenta (24-48h)',b9:'Gradilište zaustavljeno — vremenske prilike',b9h:'Socijalni sekretarijat + radnici eC3.2',b10:'Dodatni radovi',b10h:'Aneks — validacija klijenta emailom',b11:'Gradilište završeno',b11h:'Faktura + Zapisnik + Google recenzija',b12:'Pošaljite profesionalnu poruku',b12h:'Email ili WhatsApp — glasovno ili tekstom',b13:'Pošaljite WhatsApp poruku',b13h:'Otvara se s predpopunjenim tekstom',b14:'Obavijestite o kašnjenju gradilišta',b14h:'Email ili WhatsApp po izboru',b15:'Pomoć za poziv',b15h:'Obrada u roku od 4 sata',b16:'Pošaljite računovođi',b16h:'Foto · automatski arhiv Drive',b17:'Pošaljite fotografiju',b17h:'Automatski klasificirana i arhivirana',b18:'PDV 6% — imam li pravo?',b18h:'Pravna napomena automatski ubrizgana',b19:'Hitni administrativni dosije',b19h:'SLA : 4h hitno · 24h normalno',b20:'Hitnost na gradilištu',b20h:'Direktni alarm — kritične situacije',nav1:'Početna',nav2:'Dosijei',nav3:'Klijenti',nav4:'Planiranje',sent:'✅ Poruka poslana putem TRIMONY',ignored:'Zanemareno — ostat će u čekanju',noted:'✅ Integrirano u vaš dosje',demo:'🎯 Demo — funkcija aktivna u klijentskoj verziji'},
+  pl:{badge:'⚡ INTERAKTYWNE DEMO — TRIMONY',greeting:'Dzień dobry, <strong>Ermal</strong> 👷',stat1:'obsłużonych działań',stat2:'odzyskanych w tym miesiącu',stat3:'oczekujących',session:'Sesja aktywna · 7 dni pozostało',noteTitle:'Zrób szybką notatkę',noteSub:'Głosowo lub tekstowo · zapisane w panelu',cfTitle:'💶 WPŁYW NA CASH-FLOW — TEN MIESIĄC',cf1:'Faktura Dupont — 15 dni opóźnienia',cf1a:'3.500€',cf2:'Oferta Martin — przypomnienie J+7',cf2a:'2.200€',cf3:'Faktura Leroy — zapłacona ✅',cf3a:'6.700€',sAction:'🟠 Czeka na Twoją akcję',sWork:'🟢 TRIMONY pracował dla Ciebie',actTitle:'AKTYWNOŚĆ DZISIAJ',v1title:'Przypomnienie faktury — Dupont SPRL',v1time:'2 godziny temu',v1draft:'Szanowny Panie Dupont,<br><br>Przypominamy, że faktura nr 2024-089 na kwotę <strong>3.500€</strong> jest przeterminowana od 15 maja.<br><br>Z poważaniem, Ermal Krasniqi',v2title:'Oferta dach — Martin',v2time:'Dziś rano',v2draft:'Szanowny Panie Martin,<br><br>Po naszej wizycie 28 maja, w załączniku znajdzie Pan ofertę na <strong>kompleksowy remont dachu</strong> (180m²).<br>Kwota : <strong>22.400€ netto</strong> — VAT 6% do zastosowania.<br><br>Oferta ważna 30 dni.',v3title:'Dofinansowanie remontu — Klient Fontaine',v3time:'Wczoraj',v3draft:'TRIMONY sprawdził : <strong>Pani Fontaine ma prawo do 2 dofinansowań</strong> :<br>• Premia RENOLUTION Wallonie : do <strong>4.000€</strong><br>• Obniżony VAT 6% potwierdzony<br><br>💡 Uwzględnij te dofinansowania w ofercie.',a1:'Przypomnienie faktury Leroy 6.700€ wysłane — <strong>zapłacone 2h później</strong> ✅',a2:'Recenzja Google poproszona — <strong>5 gwiazdek otrzymanych</strong> 🌟',a3:'VAT 6% zweryfikowany — wzmianka prawna wstrzyknięta',a4:'Pismo ONSS przetłumaczone i odpowiedziane',a5:'Zatrzymanie budowy zgłoszone — Securex powiadomiony',a6:'3 faktury wysłane do księgowego',a7:'Przypomnienie gwarancji 1 rok — zaplanowane',s1:'💶 Cash-flow & Oferty',s2:'🇧🇪 Administracja & Tłumaczenie',s3:'🏗️ Budowy & Teren',s4:'📞 Sekretariat',s5:'📁 Dokumenty & Księgowość',s6:'🚨 Pilne & Priorytety',b1:'Przygotuj ofertę',b1h:'TRIMONY generuje profesjonalny szkic',b2:'Przypomnij o ofercie',b2h:'Tunel J+3 / J+7 / J+14 automatyczny',b3:'Przypomnij o nieopłaconej fakturze',b3h:'Mini-panel faktur z opóźnieniem',b4:'Poproś o recenzję Google',b4h:'WhatsApp bezpośrednio z gotowym tekstem',b5:'Belgijski list — profesjonalny',b5h:'Gmina, VAT, ONSS, dostawca',b6:'Zrozum prywatny list',b6h:'Ubezpieczenie, właściciel, szkoła, kara',b7:'Zaskarż mandat lub fakturę',b7h:'Oficjalny list generowany automatycznie',b8:'Sprawdź czy mam prawo do dopłaty',b8h:'Dla Ciebie (4-5 dni) · Dla klienta (24-48h)',b9:'Budowa wstrzymana — pogoda',b9h:'Sekretariat społeczny + pracownicy eC3.2',b10:'Dodatkowe prace',b10h:'Aneks — walidacja klienta emailem',b11:'Budowa zakończona',b11h:'Faktura + Protokół + recenzja Google',b12:'Wyślij profesjonalną wiadomość',b12h:'Email lub WhatsApp — głosowo lub tekstowo',b13:'Wyślij wiadomość WhatsApp',b13h:'Otwiera się z gotowym tekstem',b14:'Powiadom o opóźnieniu budowy',b14h:'Email lub WhatsApp do wyboru',b15:'Potrzebuję pomocy przy rozmowie',b15h:'Realizacja w ciągu 4 godzin',b16:'Wyślij do księgowego',b16h:'Zdjęcie · archiwum Drive auto',b17:'Wyślij zdjęcie',b17h:'Sklasyfikowane i zarchiwizowane automatycznie',b18:'VAT 6% — czy mam prawo?',b18h:'Wzmianka prawna wstrzykiwana automatycznie',b19:'Pilna teczka administracyjna',b19h:'SLA : 4h pilne · 24h normalne',b20:'Pilne na budowie',b20h:'Bezpośredni alarm — sytuacje krytyczne',nav1:'Strona główna',nav2:'Teczki',nav3:'Klienci',nav4:'Planowanie',sent:'✅ Wiadomość wysłana przez TRIMONY',ignored:'Zignorowane — pozostanie w oczekiwaniu',noted:'✅ Zintegrowane z Twoją teczką',demo:'🎯 Demo — funkcja aktywna w wersji klienta'},
+  ar:{badge:'⚡ عرض تفاعلي — TRIMONY',greeting:'صباح الخير، <strong>Ermal</strong> 👷',stat1:'إجراءات مُعالَجة',stat2:'مُستردّة هذا الشهر',stat3:'في الانتظار',session:'الجلسة نشطة · 7 أيام متبقية',noteTitle:'تدوين ملاحظة سريعة',noteSub:'صوتياً أو نصياً · محفوظة في لوحتك',cfTitle:'💶 تأثير التدفق النقدي — هذا الشهر',cf1:'فاتورة Dupont — تأخر 15 يوماً',cf1a:'3.500€',cf2:'عرض Martin — تذكير J+7',cf2a:'2.200€',cf3:'فاتورة Leroy — مدفوعة ✅',cf3a:'6.700€',sAction:'🟠 ينتظر إجراءك',sWork:'🟢 عمل TRIMONY من أجلك',actTitle:'نشاط اليوم',v1title:'تذكير فاتورة — Dupont SPRL',v1time:'قبل ساعتين',v1draft:'السيد Dupont المحترم،<br><br>نذكّركم بأن الفاتورة رقم 2024-089 بمبلغ <strong>3.500€</strong> متأخرة منذ 15 مايو.<br><br>مع التقدير، Ermal Krasniqi',v2title:'عرض سعر السطح — Martin',v2time:'هذا الصباح',v2draft:'السيد Martin المحترم،<br><br>إثر زيارتنا في 28 مايو، نرفق عرض السعر الخاص بـ<strong>تجديد السطح كاملاً</strong> (180م²).<br>المبلغ : <strong>22.400€ بدون ضريبة</strong> — ضريبة 6% قابلة للتطبيق.<br><br>هذا العرض صالح 30 يوماً.',v3title:'مساعدة التجديد — العميل Fontaine',v3time:'أمس',v3draft:'تحقق TRIMONY : <strong>السيدة Fontaine مؤهلة للحصول على مساعدتين</strong> :<br>• منحة RENOLUTION Wallonie : حتى <strong>4.000€</strong><br>• ضريبة 6% مخفضة مؤكدة<br><br>💡 أدرج هذه المساعدات في عرضك.',a1:'تذكير فاتورة Leroy 6.700€ أُرسل — <strong>دُفعت بعد ساعتين</strong> ✅',a2:'طُلبت مراجعة Google — <strong>5 نجوم استُلمت</strong> 🌟',a3:'تحققت ضريبة 6% — الملاحظة القانونية أُضيفت',a4:'رسالة ONSS تُرجمت والرد أُرسل',a5:'توقف الأشغال بسبب الطقس أُعلن',a6:'3 فواتير أُرسلت للمحاسب',a7:'تذكير ضمان سنة واحدة — مجدول',s1:'💶 التدفق النقدي والعروض',s2:'🇧🇪 الإدارة والترجمة',s3:'🏗️ موقع البناء والميدان',s4:'📞 السكرتارية',s5:'📁 الوثائق والمحاسبة',s6:'🚨 الطوارئ والأولويات',b1:'إعداد عرض سعر',b1h:'TRIMONY يُولّد المسودة الاحترافية',b2:'تذكير بعرض السعر',b2h:'نفق J+3 / J+7 / J+14 تلقائي',b3:'تذكير فاتورة غير مدفوعة',b3h:'لوحة صغيرة للفواتير المتأخرة',b4:'طلب مراجعة Google',b4h:'WhatsApp مباشر بنص جاهز',b5:'رسالة بلجيكية — احترافية',b5h:'بلدية، ضريبة، ONSS، مورّد',b6:'فهم رسالة خاصة',b6h:'تأمين، مالك، مدرسة، مخالفة',b7:'الطعن في غرامة أو فاتورة',b7h:'رسالة رسمية تُولَّد تلقائياً',b8:'التحقق من الحق في مساعدة',b8h:'لك (4-5 أيام) · للعميل (24-48 ساعة)',b9:'توقف موقع البناء — الطقس',b9h:'السكرتارية الاجتماعية + العمال eC3.2',b10:'أعمال إضافية',b10h:'ملحق — موافقة العميل بالبريد',b11:'انتهاء موقع البناء',b11h:'فاتورة + محضر + مراجعة Google',b12:'إرسال رسالة احترافية',b12h:'بريد أو WhatsApp — صوتي أو نصي',b13:'إرسال رسالة WhatsApp',b13h:'يفتح بنص جاهز',b14:'إخطار بتأخر موقع البناء',b14h:'بريد أو WhatsApp حسب الاختيار',b15:'مساعدة لمكالمة',b15h:'معالجة خلال 4 ساعات عمل',b16:'إرسال للمحاسب',b16h:'صورة · أرشفة Drive تلقائية',b17:'إرسال صورة',b17h:'مُصنَّفة ومُؤرشَفة تلقائياً',b18:'ضريبة 6% — هل لي الحق؟',b18h:'الملاحظة القانونية تُضاف تلقائياً',b19:'ملف إداري عاجل',b19h:'SLA : 4 ساعات عاجل · 24 ساعة عادي',b20:'طارئ في الموقع',b20h:'إنذار مباشر — حالات حرجة',nav1:'الرئيسية',nav2:'الملفات',nav3:'العملاء',nav4:'التخطيط',sent:'✅ رسالة أُرسلت عبر TRIMONY',ignored:'تم التجاهل — سيبقى في الانتظار',noted:'✅ تم الإدراج في ملفك',demo:'🎯 عرض — الميزة نشطة في نسخة العميل'},
+  nl:{badge:'⚡ INTERACTIEVE DEMO — TRIMONY',greeting:'Goedemorgen, <strong>Ermal</strong> 👷',stat1:'verwerkte acties',stat2:'teruggevorderd deze maand',stat3:'in behandeling',session:'Sessie actief · 7 dagen resterend',noteTitle:'Een snelle notitie maken',noteSub:'Gesproken of tekst · opgeslagen in cockpit',cfTitle:'💶 CASHFLOW-IMPACT — DEZE MAAND',cf1:'Factuur Dupont — 15 dagen vertraging',cf1a:'3.500€',cf2:'Offerte Martin — herinnering J+7',cf2a:'2.200€',cf3:'Factuur Leroy — betaald ✅',cf3a:'6.700€',sAction:'🟠 Wacht op uw actie',sWork:'🟢 TRIMONY heeft voor u gewerkt',actTitle:'ACTIVITEIT VANDAAG',v1title:'Factuurherinnering — Dupont SPRL',v1time:'2 uur geleden',v1draft:'Geachte heer Dupont,<br><br>Wij herinneren u eraan dat factuur nr.2024-089 van <strong>3.500€</strong> verschuldigd is sinds 15 mei.<br><br>Met vriendelijke groet, Ermal Krasniqi',v2title:'Offerte dak — Martin',v2time:'Vanochtend',v2draft:'Geachte heer Martin,<br><br>Na ons bezoek van 28 mei vindt u bijgaand de offerte voor de <strong>volledige dakrenovatie</strong> (180m²).<br>Bedrag : <strong>22.400€ excl. BTW</strong> — BTW 6% van toepassing.<br><br>Deze offerte is 30 dagen geldig.',v3title:'Renovatiesteun — Klant Fontaine',v3time:'Gisteren',v3draft:'TRIMONY heeft gecontroleerd : <strong>Mevrouw Fontaine heeft recht op 2 subsidies</strong> :<br>• Premie RENOLUTION Wallonie : tot <strong>4.000€</strong><br>• Verlaagd BTW 6% bevestigd<br><br>💡 Verwerk deze subsidies in uw offerte.',a1:'Factuurherinnering Leroy 6.700€ verzonden — <strong>2u later betaald</strong> ✅',a2:'Google-recensie gevraagd — <strong>5 sterren ontvangen</strong> 🌟',a3:'BTW 6% geverifieerd — wettelijke vermelding ingevoegd',a4:'ONSS-brief vertaald en beantwoord',a5:'Bouwstop wegens weer gemeld',a6:'3 facturen naar boekhouder gestuurd',a7:'Garantieherinnering 1 jaar — gepland',s1:'💶 Cashflow & Offertes',s2:'🇧🇪 Administratie & Vertaling',s3:'🏗️ Bouwplaats & Terrein',s4:'📞 Secretariaat',s5:'📁 Documenten & Boekhouding',s6:'🚨 Spoedgevallen & Prioriteiten',b1:'Een offerte opstellen',b1h:'TRIMONY genereert de professionele schets',b2:'Een offerte herinneren',b2h:'Tunnel J+3 / J+7 / J+14 automatisch',b3:'Onbetaalde factuur herinneren',b3h:'Mini-dashboard achterstallige facturen',b4:'Google-recensie aanvragen',b4h:'WhatsApp direct met vooringevulde tekst',b5:'Belgische brief — professioneel',b5h:'Gemeente, BTW, ONSS, leverancier',b6:'Privébrief begrijpen',b6h:'Mutualiteit, eigenaar, school, boete',b7:'Boete of factuur betwisten',b7h:'Officiële brief automatisch gegenereerd',b8:'Controleer of ik recht heb op steun',b8h:'Voor u (4-5 dagen) · Voor de klant (24-48u)',b9:'Bouwplaats stilgelegd — weer',b9h:'Sociaal secretariaat + arbeiders eC3.2',b10:'Bijkomende werken',b10h:'Aanhangsel — klantvalidatie per email',b11:'Bouwplaats afgerond',b11h:'Factuur + PV + Google-recensie',b12:'Professioneel bericht sturen',b12h:'Email of WhatsApp — gesproken of tekst',b13:'WhatsApp-bericht sturen',b13h:'Opent met vooringevulde tekst',b14:'Vertraging bouwplaats melden',b14h:'Email of WhatsApp naar keuze',b15:'Hulp bij een telefoongesprek',b15h:'Verwerking binnen 4 werkuren',b16:'Naar boekhouder sturen',b16h:'Foto · automatische Drive-archivering',b17:'Een foto sturen',b17h:'Automatisch geclassificeerd en gearchiveerd',b18:'BTW 6% — heb ik recht?',b18h:'Wettelijke vermelding automatisch ingevoegd',b19:'Dringende administratieve dossier',b19h:'SLA : 4u dringend · 24u normaal',b20:'Spoed op bouwplaats',b20h:'Direct alarm — kritieke situaties',nav1:'Startpagina',nav2:'Dossiers',nav3:'Klanten',nav4:'Planning',sent:'✅ Bericht verzonden via TRIMONY',ignored:'Genegeerd — blijft in wachtrij',noted:'✅ Geïntegreerd in uw dossier',demo:'🎯 Demo — functionaliteit actief in de klantversie'}
 };
 
 let T=LANGS.fr;
 let currentLang='fr';
+let openCat=null;
 
-function setLang(lang){
-  currentLang=lang;
-  T=LANGS[lang];
+// ── LANGUE ────────────────────────────────────────────────────────────────
+function setLang(lang,evt){
+  currentLang=lang;T=LANGS[lang];
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-  applyLang();
-}
-
-function applyLang(){
-  const ids=['greeting','stat1','stat2','stat3','session','noteTitle','noteSub','cfTitle','cf1','cf1a','cf2','cf2a','cf3','cf3a','sAction','sWork','actTitle','v1title','v1time','v1draft','v2title','v2time','v2draft','v3title','v3time','v3draft','a1','a2','a3','a4','a5','a6','a7','s1','s2','s3','s4','s5','s6','b1','b1h','b2','b2h','b3','b3h','b4','b4h','b5','b5h','b6','b6h','b7','b7h','b8','b8h','b9','b9h','b10','b10h','b11','b11h','b12','b12h','b13','b13h','b14','b14h','b15','b15h','b16','b16h','b17','b17h','b18','b18h','b19','b19h','b20','b20h','nav1','nav2','nav3','nav4'];
-  ids.forEach(id=>{
-    const el=document.getElementById(id);
-    if(el&&T[id]!==undefined)el.innerHTML=T[id];
-  });
+  evt.target.classList.add('active');
+  const ids=['greeting','stat1','stat2','stat3','session','noteTitle','noteSub','cfTitle','cf1','cf1a','cf2','cf2a','cf3','cf3a','sectionAction','sectionWork','actTitle','v1title','v1time','v1draft','v2title','v2time','v2draft','v3title','v3time','v3draft','a1','a2','a3','a4','a5','a6','a7','s1','s2','s3','s4','s5','s6','b1','b1h','b2','b2h','b3','b3h','b4','b4h','b5','b5h','b6','b6h','b7','b7h','b8','b8h','b9','b9h','b10','b10h','b11','b11h','b12','b12h','b13','b13h','b14','b14h','b15','b15h','b16','b16h','b17','b17h','b18','b18h','b19','b19h','b20','b20h','nav1','nav2','nav3','nav4'];
+  ids.forEach(id=>{const el=document.getElementById(id);if(el&&T[id]!==undefined)el.innerHTML=T[id];});
   document.getElementById('demoBadge').textContent=T.badge;
-  // Boutons validation
-  const btns=document.querySelectorAll('.btn-valider');
-  const ignBtns=document.querySelectorAll('.btn-ignorer');
-  if(btns[0])btns[0].textContent=T.btnSend;
-  if(btns[1])btns[1].textContent=T.btnSend2;
-  if(btns[2])btns[2].textContent=T.btnInteg;
-  if(ignBtns[0])ignBtns[0].textContent=T.btnIgnore;
-  if(ignBtns[1])ignBtns[1].textContent=T.btnMod;
-  if(ignBtns[2])ignBtns[2].textContent=T.btnLater;
+  document.getElementById('session').textContent=T.session;
 }
 
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+// ── ACCORDEON ─────────────────────────────────────────────────────────────
+function toggleCat(n){
+  const h=document.getElementById('ch'+n);
+  const c=document.getElementById('cc'+n);
+  if(openCat===n){h.classList.remove('open');c.classList.remove('open');openCat=null;}
+  else{
+    if(openCat){document.getElementById('ch'+openCat).classList.remove('open');document.getElementById('cc'+openCat).classList.remove('open');}
+    h.classList.add('open');c.classList.add('open');openCat=n;
+  }
+}
 
-// Init
+// ── VALIDATION CARDS ──────────────────────────────────────────────────────
+function sendValidation(id,type){
+  const card=document.getElementById(id);
+  card.style.transition='all 0.4s ease';
+  card.style.opacity='0';card.style.transform='translateX(20px)';
+  setTimeout(()=>{card.style.display='none';},400);
+  showToast(T.sent);
+}
+function dismissCard(id,type){
+  const card=document.getElementById(id);
+  card.style.transition='all 0.3s ease';
+  card.style.opacity='0';
+  setTimeout(()=>{card.style.display='none';},300);
+  showToast(T.ignored);
+}
+function integrerPrime(){
+  const card=document.getElementById('vc3');
+  card.style.borderColor='var(--sapin)';
+  card.querySelector('.validation-draft').innerHTML=
+    'TRIMONY a mis à jour le devis Martin :<br>• Montant initial : <strong>22.400€</strong><br>• Prime RENOLUTION déduite : <strong>-4.000€</strong><br>• <strong>Total client net : 18.400€ HTVA</strong><br>• TVA 6% confirmée ✅<br><br><em>Le devis actualisé est prêt à envoyer.</em>';
+  card.querySelector('.validation-actions').innerHTML=
+    '<button class="btn-valider" onclick="sendValidation(\'vc3\',\'sent\')">✅ Envoyer le devis mis à jour</button><button class="btn-ignorer" onclick="dismissCard(\'vc3\',\'ignored\')">Plus tard</button>';
+  showToast('✅ Prime intégrée — devis mis à jour : 18.400€');
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+  document.querySelector('.scroll-area').scrollTop=0;
+  if(name==='clients') renderClients();
+  if(name==='dossiers') renderDossiers();
+  if(name==='planning') renderPlanning();
+}
+
+// ── CLIENTS ───────────────────────────────────────────────────────────────
+function renderClients(){
+  const list=document.getElementById('clientsList');
+  list.innerHTML='';
+  CLIENTS_DATA.forEach((c,i)=>{
+    const div=document.createElement('div');
+    div.className='client-card';
+    div.innerHTML=`
+      <div class="client-header" onclick="toggleClient(${i})">
+        <div class="client-avatar" style="background:${c.color}">${c.initials}</div>
+        <div class="client-info">
+          <div class="client-name">${c.name}</div>
+          <div class="client-sector">${c.sector}</div>
+        </div>
+        <span class="client-badge badge-${c.badge}">${c.badgeText}</span>
+      </div>
+      <div class="client-body" id="cb${i}">
+        ${c.dossiers.map(d=>`<div class="dossier-item"><div class="dossier-dot ${d.dot}"></div><div class="dossier-label">${d.label}<br><span class="dossier-status">${d.status}</span></div></div>`).join('')}
+        <button class="client-action-btn" onclick="openModal('devis')">+ Nouvelle action pour ${c.name}</button>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+let openClientIdx=null;
+function toggleClient(i){
+  const el=document.getElementById('cb'+i);
+  if(openClientIdx===i){el.classList.remove('open');openClientIdx=null;}
+  else{if(openClientIdx!==null)document.getElementById('cb'+openClientIdx).classList.remove('open');el.classList.add('open');openClientIdx=i;}
+}
+
+// ── DOSSIERS ──────────────────────────────────────────────────────────────
+function renderDossiers(){
+  const list=document.getElementById('dossiersList');
+  list.innerHTML='';
+  CLIENTS_DATA.forEach(c=>{
+    c.dossiers.forEach(d=>{
+      const div=document.createElement('div');
+      div.style.cssText='background:white;border:1px solid var(--gray-1);border-radius:14px;margin:0 16px 8px;padding:14px 16px;box-shadow:var(--shadow);display:flex;align-items:flex-start;gap:10px;';
+      div.innerHTML=`<div class="dossier-dot ${d.dot}" style="margin-top:5px"></div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600;color:var(--navy)">${d.label}</div>
+          <div style="font-size:11px;color:var(--gray-4);font-family:var(--mono);margin-top:3px">${c.name} · ${d.status}</div>
+        </div>`;
+      list.appendChild(div);
+    });
+  });
+}
+
+// ── PLANNING ─────────────────────────────────────────────────────────────
+function renderPlanning(){
+  const el=document.getElementById('planningContent');
+  el.innerHTML='';
+  PLANNING_DATA.forEach(day=>{
+    const wrap=document.createElement('div');
+    wrap.className='planning-day';
+    wrap.innerHTML=`<div class="planning-day-label">${day.day}</div>`+
+      day.slots.map(s=>`<div class="planning-slot">
+        <div class="planning-time">${s.time}</div>
+        <div class="planning-content">
+          <div class="planning-title">${s.title}</div>
+          <div class="planning-client">${s.client}</div>
+        </div>
+        <div class="planning-dot" style="background:${s.color}"></div>
+      </div>`).join('');
+    el.appendChild(wrap);
+  });
+}
+
+// ── MODALS ────────────────────────────────────────────────────────────────
+const MODAL_DEFS = {
+  'note':{title:'📝 Note rapide',sub:'Vocal ou texte — sauvé dans votre cockpit',body:`
+    <div class="mic-zone" onclick="simulateMic()">
+      <div class="mic-btn" id="micBtn">🎤</div>
+      <div class="mic-label" id="micLabel">Appuyez pour parler</div>
+    </div>
+    <div class="modal-field"><label class="field-label">Ou tapez votre note</label><textarea class="field-textarea" placeholder="Ex: Rappeler Martin lundi matin pour confirmer chantier…"></textarea></div>`,
+    send:'💾 Sauver dans le cockpit',close:true},
+  'devis':{title:'📄 Préparer un devis',sub:'TRIMONY génère le draft — vous validez avant envoi',body:`
+    <div class="modal-field"><label class="field-label">Client</label><select class="field-select"><option>Mohamed Hafidi</option><option>Jean-Paul Renard</option><option>Artan Kelmendi</option><option>Stefan Bogdanović</option><option>Laurent Fontaine</option><option>Nouveau client…</option></select></div>
+    <div class="modal-field"><label class="field-label">Description des travaux</label><textarea class="field-textarea" placeholder="Ex: Rénovation salle de bain — remplacement douche + carrelage 12m²…"></textarea></div>
+    <div style="display:flex;gap:10px">
+      <div class="modal-field" style="flex:1"><label class="field-label">Montant estimé HTVA</label><input class="field-input" type="number" placeholder="0" /></div>
+      <div class="modal-field" style="flex:1"><label class="field-label">TVA</label><select class="field-select"><option>6%</option><option>21%</option></select></div>
+    </div>`,
+    send:'✅ Générer le devis',onSend:'showDevisPreview',close:true},
+  'modifier-devis':{title:'✏️ Modifier le devis Martin',sub:'Modifiez le contenu avant envoi',body:`
+    <div class="modal-field"><label class="field-label">Description</label><textarea class="field-textarea">Réfection complète de la toiture (180m²) — ardoises naturelles.</textarea></div>
+    <div style="display:flex;gap:10px">
+      <div class="modal-field" style="flex:1"><label class="field-label">Montant HTVA</label><input class="field-input" type="number" value="22400" /></div>
+      <div class="modal-field" style="flex:1"><label class="field-label">TVA</label><select class="field-select"><option selected>6%</option><option>21%</option></select></div>
+    </div>
+    <div class="modal-field"><label class="field-label">Validité (jours)</label><input class="field-input" type="number" value="30" /></div>`,
+    send:'✅ Envoyer le devis modifié',close:true},
+  'relance-devis':{title:'📢 Relancer un devis',sub:'Tunnel J+3 / J+7 / J+14 automatique',body:`
+    <div class="modal-field"><label class="field-label">Devis à relancer</label><select class="field-select"><option>Hafidi — Chantier rue de Liège 44 (8.200€)</option><option>Renard — Tableau électrique (3.100€)</option><option>Bogdanović — Toiture (18.500€)</option></select></div>
+    <div class="modal-field"><label class="field-label">Type de relance</label><select class="field-select"><option>J+3 — Relance douce</option><option>J+7 — Relance standard</option><option>J+14 — Relance ferme</option></select></div>`,
+    send:'✅ Programmer la relance',close:true},
+  'relance-facture':{title:'💳 Relancer une facture impayée',sub:'Mini-dashboard factures en retard',body:`
+    <div style="background:var(--red-light);border-radius:var(--r);padding:12px;margin-bottom:12px;border:1px solid rgba(192,57,43,0.15)">
+      <div style="font-size:11px;font-family:var(--mono);color:var(--red);font-weight:600;margin-bottom:8px">🔴 FACTURES EN RETARD</div>
+      <div style="font-size:13px;color:var(--navy);margin-bottom:4px">Renard SPRL — <strong>1.840€</strong> — 18 jours</div>
+      <div style="font-size:13px;color:var(--navy)">Dupont & Fils — <strong>3.500€</strong> — 15 jours</div>
+    </div>
+    <div class="modal-field"><label class="field-label">Choisir la facture</label><select class="field-select"><option>Renard SPRL — 1.840€ (18 jours)</option><option>Dupont & Fils — 3.500€ (15 jours)</option></select></div>
+    <div class="modal-field"><label class="field-label">Ton de la relance</label><select class="field-select"><option>😊 Aimable — 1ère relance</option><option>📋 Standard — 2ème relance</option><option>⚠️ Ferme — 3ème relance</option><option>🚨 Mise en demeure</option></select></div>`,
+    send:'✅ Envoyer la relance',close:true},
+  'google':{title:'⭐ Demander un avis Google',sub:'WhatsApp direct avec lien pré-rempli',body:`
+    <div class="modal-field"><label class="field-label">Client satisfait</label><select class="field-select"><option>Mohamed Hafidi</option><option>Artan Kelmendi</option><option>Laurent Fontaine</option></select></div>
+    <div style="background:var(--sapin-ultra);border-radius:var(--r);padding:12px;margin-bottom:12px;font-size:13px;line-height:1.6;color:var(--navy);border:1px solid rgba(82,183,136,0.2)">
+      <strong>Message WhatsApp qui sera envoyé :</strong><br><br>
+      "Bonjour Mohamed 😊 Merci encore pour votre confiance ! Si vous êtes satisfait de nos travaux, un petit avis Google nous aiderait beaucoup : [LIEN]. Merci d'avance ! 🙏"
+    </div>`,
+    send:'✅ Envoyer sur WhatsApp',close:true},
+  'courrier':{title:'📬 Courrier belge professionnel',sub:'Commune, TVA, ONSS, fournisseur — TRIMONY rédige',body:`
+    <div class="modal-field"><label class="field-label">Destinataire</label><select class="field-select"><option>Commune / Administration</option><option>SPF Finances / TVA</option><option>ONSS / Secrétariat social</option><option>Fournisseur / Sous-traitant</option><option>Assurance</option></select></div>
+    <div class="modal-field"><label class="field-label">Objet / motif</label><textarea class="field-textarea" placeholder="Ex: Contester une amende de stationnement reçue le 15/05…"></textarea></div>`,
+    send:'✅ TRIMONY rédige le courrier',close:true},
+  'comprendre':{title:'🏠 Comprendre un courrier privé',sub:'Mutuelle, proprio, école, amende — explication claire',body:`
+    <div class="modal-field"><label class="field-label">Type de courrier</label><select class="field-select"><option>Mutuelle / Assurance</option><option>Propriétaire / Bail</option><option>Amende / PV</option><option>Huissier / Justice</option><option>Autre</option></select></div>
+    <div class="modal-field"><label class="field-label">Décrivez le courrier reçu</label><textarea class="field-textarea" placeholder="Ex: Lettre de ma mutuelle qui me demande de rembourser 480€ pour des soins de 2023…"></textarea></div>`,
+    send:'✅ TRIMONY explique et conseille',close:true},
+  'contester':{title:'⚖️ Contester une amende ou facture',sub:'Lettre officielle générée automatiquement',body:`
+    <div class="modal-field"><label class="field-label">Ce que vous contestez</label><select class="field-select"><option>Amende de roulage</option><option>Facture excessive / erreur</option><option>PV communal</option><option>Litige fournisseur</option></select></div>
+    <div class="modal-field"><label class="field-label">Montant contesté</label><input class="field-input" type="number" placeholder="Ex: 250" /></div>
+    <div class="modal-field"><label class="field-label">Motif de la contestation</label><textarea class="field-textarea" placeholder="Ex: Le véhicule était stationné légalement avec disque — erreur d'agent…"></textarea></div>`,
+    send:'✅ Générer la lettre de contestation',close:true},
+  'aide':{title:'💶 Vérifier les droits à aides',sub:'Pour vous (4-5j) · Pour votre client (24-48h)',body:`
+    <div class="modal-field"><label class="field-label">Pour qui ?</label><select class="field-select"><option>Pour moi (entrepreneur)</option><option>Pour mon client</option></select></div>
+    <div class="modal-field"><label class="field-label">Type de travaux</label><select class="field-select"><option>Rénovation énergétique</option><option>Isolation / Toiture</option><option>Chauffage / Pompe à chaleur</option><option>Menuiseries / Châssis</option><option>Photovoltaïque</option></select></div>
+    <div class="modal-field"><label class="field-label">Région</label><select class="field-select"><option>Wallonie</option><option>Bruxelles</option><option>Flandre</option></select></div>`,
+    send:'✅ TRIMONY analyse les droits',close:true},
+  'meteo':{title:'⛈️ Chantier arrêté — météo',sub:'Secrétariat social + ouvriers notifiés',body:`
+    <div class="modal-field"><label class="field-label">Chantier concerné</label><select class="field-select"><option>Hafidi — Rue de Liège 44</option><option>Bogdanović — Toiture Bruxelles</option><option>Fontaine — Finition salon</option></select></div>
+    <div class="modal-field"><label class="field-label">Date d'arrêt</label><input class="field-input" type="date" value="2026-06-02" /></div>
+    <div class="modal-field"><label class="field-label">Nombre d'ouvriers concernés</label><input class="field-input" type="number" placeholder="Ex: 3" /></div>`,
+    send:'✅ Déclarer arrêt météo — Securex + ouvriers',close:true},
+  'travaux-sup':{title:'📝 Travaux supplémentaires',sub:'Avenant — validation client par email',body:`
+    <div class="modal-field"><label class="field-label">Chantier</label><select class="field-select"><option>Hafidi — Façade rue de Liège</option><option>Kelmendi — Chaudière</option><option>Fontaine — Peinture salon</option></select></div>
+    <div class="modal-field"><label class="field-label">Description des travaux supplémentaires</label><textarea class="field-textarea" placeholder="Ex: Remplacement de 3 radiateurs supplémentaires découverts lors des travaux…"></textarea></div>
+    <div class="modal-field"><label class="field-label">Montant supplémentaire HTVA</label><input class="field-input" type="number" placeholder="Ex: 850" /></div>`,
+    send:'✅ Générer avenant + envoyer au client',close:true},
+  'chantier-fin':{title:'✅ Chantier terminé',sub:'Facture + PV de réception + avis Google',body:`
+    <div class="modal-field"><label class="field-label">Chantier clôturé</label><select class="field-select"><option>Kelmendi — Remplacement chaudière</option><option>Hafidi — Façade rue de Liège</option><option>Fontaine — Peinture salon</option></select></div>
+    <div class="modal-field"><label class="field-label">Que voulez-vous générer ?</label>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px"><input type="checkbox" checked style="width:16px;height:16px"> Facture finale</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px"><input type="checkbox" checked style="width:16px;height:16px"> PV de réception</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px"><input type="checkbox" style="width:16px;height:16px"> Demande avis Google</label>
+      </div>
+    </div>`,
+    send:'✅ Clôturer le chantier',close:true},
+  'msg-pro':{title:'✉️ Message professionnel',sub:'Email ou WhatsApp — vocal ou texte',body:`
+    <div class="modal-field"><label class="field-label">Destinataire</label><select class="field-select"><option>Mohamed Hafidi</option><option>Jean-Paul Renard</option><option>Artan Kelmendi</option><option>Stefan Bogdanović</option><option>Laurent Fontaine</option><option>Autre contact…</option></select></div>
+    <div class="modal-field"><label class="field-label">Canal</label><select class="field-select"><option>📧 Email</option><option>📱 WhatsApp</option></select></div>
+    <div class="modal-field"><label class="field-label">Votre message (ou dicter)</label><textarea class="field-textarea" placeholder="Ex: Confirmer le rendez-vous de lundi 10h pour la visite chantier…"></textarea></div>`,
+    send:'✅ TRIMONY rédige et envoie',close:true},
+  'whatsapp':{title:'📱 Message WhatsApp',sub:"S'ouvre avec texte pré-rempli",body:`
+    <div class="modal-field"><label class="field-label">Contact</label><select class="field-select"><option>Mohamed Hafidi — +32 470 xx xx xx</option><option>Jean-Paul Renard — +32 491 xx xx xx</option><option>Artan Kelmendi — +32 485 xx xx xx</option></select></div>
+    <div class="modal-field"><label class="field-label">Message</label><textarea class="field-textarea" placeholder="Votre message…"></textarea></div>`,
+    send:'✅ Ouvrir WhatsApp',close:true},
+  'retard':{title:'🔔 Prévenir d\'un retard',sub:'Email ou WhatsApp au choix',body:`
+    <div class="modal-field"><label class="field-label">Chantier concerné</label><select class="field-select"><option>Hafidi — Rue de Liège</option><option>Bogdanović — Toiture</option></select></div>
+    <div class="modal-field"><label class="field-label">Nouveau délai estimé</label><input class="field-input" type="date" /></div>
+    <div class="modal-field"><label class="field-label">Raison du retard</label><select class="field-select"><option>Météo défavorable</option><option>Retard livraison matériaux</option><option>Travaux imprévus</option><option>Absence d'un ouvrier</option></select></div>`,
+    send:'✅ Prévenir le client',close:true},
+  'appel':{title:'📞 Aide pour un appel',sub:'Traitement sous 4h ouvrables',body:`
+    <div class="modal-field"><label class="field-label">Nature de l'appel à passer</label><textarea class="field-textarea" placeholder="Ex: Appeler l'ONSS pour contester le montant de la cotisation trimestrielle de 2.340€…"></textarea></div>
+    <div class="modal-field"><label class="field-label">Urgence</label><select class="field-select"><option>⚡ Urgent — sous 4h</option><option>📅 Normal — sous 24h</option></select></div>`,
+    send:'✅ Soumettre à TRIMONY',close:true},
+  'comptable':{title:'🏦 Envoyer au comptable',sub:'Photo · archivage Drive auto · confirmation email',body:`
+    <div class="modal-field"><label class="field-label">Type de document</label><select class="field-select"><option>Facture fournisseur</option><option>Bon de livraison</option><option>Relevé bancaire</option><option>Note de frais</option><option>Autre</option></select></div>
+    <div style="background:var(--sapin-ultra);border-radius:var(--r);padding:12px;margin-bottom:12px;font-size:12px;color:var(--sapin);border:1px solid rgba(82,183,136,0.2)">
+      📸 Prenez en photo le document ou importez-le. TRIMONY l'archive automatiquement dans Drive → COMPTA_2026.
+    </div>
+    <div class="modal-field"><label class="field-label">Note pour le comptable</label><input class="field-input" placeholder="Ex: TVA à récupérer sur achat matériel chantier Hafidi" /></div>`,
+    send:'✅ Envoyer au comptable',close:true},
+  'photo':{title:'📸 Envoyer une photo',sub:'Classée et archivée automatiquement dans Drive',body:`
+    <div class="modal-field"><label class="field-label">Catégorie</label><select class="field-select"><option>📸 Photo chantier</option><option>🧾 Document / Facture</option><option>🔧 Problème technique</option><option>✅ Travaux terminés</option></select></div>
+    <div class="modal-field"><label class="field-label">Chantier associé</label><select class="field-select"><option>Hafidi — Rue de Liège</option><option>Kelmendi — Chaudière</option><option>Bogdanović — Toiture</option></select></div>
+    <div style="background:var(--off);border:2px dashed var(--gray-2);border-radius:var(--r);padding:20px;text-align:center;font-size:13px;color:var(--gray-4);margin-bottom:4px">📷 Appuyez ici pour prendre une photo ou importer depuis la galerie</div>`,
+    send:'✅ Archiver la photo',close:true},
+  'tva':{title:'📋 TVA 6% — Vérification',sub:'Mention légale injectée automatiquement sur le devis',body:`
+    <div class="modal-field"><label class="field-label">Type de bâtiment</label><select class="field-select"><option>Résidence principale > 10 ans</option><option>Résidence secondaire</option><option>Bien neuf < 10 ans</option><option>Bâtiment commercial</option></select></div>
+    <div class="modal-field"><label class="field-label">Nature des travaux</label><select class="field-select"><option>Rénovation intérieure</option><option>Toiture / Isolation</option><option>Électricité / Plomberie</option><option>Menuiseries</option><option>Construction neuve</option></select></div>`,
+    send:'✅ TRIMONY vérifie et injecte la mention',close:true},
+  'dossier-urgent':{title:'🏢 Dossier administratif urgent',sub:'SLA : 4h urgent · 24h normal',body:`
+    <div class="modal-field"><label class="field-label">Nature du dossier</label><textarea class="field-textarea" placeholder="Ex: Mise en demeure reçue d'un client pour retard de livraison — délai de réponse 5 jours…"></textarea></div>
+    <div class="modal-field"><label class="field-label">Délai de réponse requis</label><select class="field-select"><option>⚡ Moins de 24h</option><option>📅 2-3 jours</option><option>📆 Cette semaine</option></select></div>`,
+    send:'🚨 Soumettre en urgence à TRIMONY',close:true},
+  'urgence-terrain':{title:'🚨 Urgence terrain',sub:'Alerte directe — situations critiques',body:`
+    <div style="background:var(--red-light);border:2px solid var(--red);border-radius:var(--r);padding:14px;margin-bottom:14px;font-size:13px;color:var(--red);font-weight:600">
+      ⚠️ Cette action déclenche une alerte immédiate à l'équipe TRIMONY.
+    </div>
+    <div class="modal-field"><label class="field-label">Nature de l'urgence</label><select class="field-select"><option>🏠 Dégât des eaux / Inondation</option><option>⚡ Problème électrique dangereux</option><option>🔥 Risque incendie</option><option>🏗️ Accident sur chantier</option><option>🚨 Litige client critique</option></select></div>
+    <div class="modal-field"><label class="field-label">Adresse du chantier</label><input class="field-input" placeholder="Ex: Rue de Liège 44, 4000 Liège" /></div>`,
+    send:'🚨 DÉCLENCHER L\'ALERTE URGENCE',close:true},
+};
+
+function openModal(key){
+  const def=MODAL_DEFS[key];
+  if(!def)return showToast(T.demo||'🎯 Démo — fonctionnalité disponible dans la version client');
+  const sheet=document.getElementById('modalSheet');
+  sheet.innerHTML=`
+    <div class="modal-handle"></div>
+    <div class="modal-title">${def.title}</div>
+    <div class="modal-sub">${def.sub}</div>
+    ${def.body}
+    <button class="modal-send" onclick="submitModal('${key}')">${def.send}</button>
+    <button class="modal-cancel" onclick="closeModal()">Annuler</button>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitModal(key){
+  closeModal();
+  if(key==='devis'){
+    setTimeout(()=>showDevisPreview(),300);
+    return;
+  }
+  const msgs={
+    'note':'📝 Note sauvée dans votre cockpit',
+    'relance-devis':'✅ Relance programmée automatiquement',
+    'relance-facture':'✅ Relance envoyée — TRIMONY suit',
+    'google':'✅ WhatsApp ouvert avec lien Google',
+    'courrier':'✅ Courrier en rédaction — délai 4h',
+    'comprendre':'✅ Analyse en cours — réponse dans 2h',
+    'contester':'✅ Lettre de contestation générée',
+    'aide':'✅ Analyse des droits lancée — résultat demain',
+    'meteo':'✅ Arrêt météo déclaré — Securex + ouvriers notifiés',
+    'travaux-sup':'✅ Avenant généré — envoyé au client pour signature',
+    'chantier-fin':'✅ Chantier clôturé — facture + PV générés',
+    'msg-pro':'✅ Message rédigé et envoyé par TRIMONY',
+    'whatsapp':'✅ WhatsApp ouvert avec le message',
+    'retard':'✅ Client prévenu du retard',
+    'appel':'✅ Dossier transmis — TRIMONY vous rappelle sous 4h',
+    'comptable':'✅ Document envoyé + archivé dans Drive COMPTA_2026',
+    'photo':'✅ Photo archivée automatiquement',
+    'tva':'✅ TVA 6% confirmée — mention injectée sur le devis',
+    'dossier-urgent':'🚨 Dossier urgent transmis — réponse sous 4h',
+    'urgence-terrain':'🚨 ALERTE DÉCLENCHÉE — Équipe TRIMONY mobilisée',
+    'modifier-devis':'✅ Devis modifié et envoyé à M. Martin',
+  };
+  showToast(msgs[key]||T.sent);
+}
+
+function showDevisPreview(){
+  const sheet=document.getElementById('modalSheet');
+  sheet.innerHTML=`
+    <div class="modal-handle"></div>
+    <div class="modal-title">📄 Devis généré par TRIMONY</div>
+    <div class="modal-sub">Vérifiez avant d'envoyer</div>
+    <div class="devis-preview">
+      <div class="dh">DEVIS N° 2026-042 — Ermal Krasniqi</div>
+      <div style="font-size:11px;color:var(--gray-4);font-family:var(--mono);margin-bottom:12px">Client · Mohamed Hafidi · Liège · Date : 31/05/2026 · Validité : 30 jours</div>
+      <div class="dl"><span>Fourniture et pose carrelage 12m²</span><span>840€</span></div>
+      <div class="dl"><span>Main d'œuvre (2 jours)</span><span>680€</span></div>
+      <div class="dl"><span>Matériaux et consommables</span><span>220€</span></div>
+      <div class="dl"><span>Total HTVA</span><span>1.740€</span></div>
+      <div class="dl"><span>TVA 6%</span><span>104,40€</span></div>
+      <div class="dl"><span style="color:var(--sapin)">TOTAL TTC</span><span>1.844,40€</span></div>
+    </div>
+    <div style="font-size:11px;font-family:var(--mono);color:var(--sapin);background:var(--sapin-ultra);padding:8px 12px;border-radius:8px;margin-bottom:12px">
+      ✅ Mention légale TVA 6% vérifiée et injectée automatiquement
+    </div>
+    <button class="modal-send" onclick="closeModal();showToast('✅ Devis 2026-042 envoyé à Mohamed Hafidi')">✅ Envoyer ce devis</button>
+    <button class="modal-cancel" onclick="openModal('modifier-devis')">✏️ Modifier avant envoi</button>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+let micTimer=null;
+function simulateMic(){
+  const btn=document.getElementById('micBtn');
+  const lbl=document.getElementById('micLabel');
+  if(!btn)return;
+  if(micTimer){clearTimeout(micTimer);btn.classList.remove('recording');lbl.textContent='Appuyez pour parler';micTimer=null;return;}
+  btn.classList.add('recording');lbl.textContent='🔴 Enregistrement…';
+  micTimer=setTimeout(()=>{
+    btn.classList.remove('recording');
+    lbl.textContent='✅ Analyse en cours…';
+    setTimeout(()=>{
+      closeModal();
+      showToast('📝 Note vocale sauvée dans votre cockpit');
+    },1200);
+    micTimer=null;
+  },3000);
+}
+
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+function closeModalIfBg(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+
 applyLang();
+function applyLang(){}
 </script>
 </body>
 </html>
